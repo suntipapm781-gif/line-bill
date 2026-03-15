@@ -4,27 +4,41 @@
 <head>
 <meta charset="UTF-8">
 <title>Bill</title>
+
+<style>
+
+body{
+font-family: Arial;
+text-align:center;
+}
+
+.bill-box{
+max-width:400px;
+margin:auto;
+text-align:left;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div style="text-align:center">
-
-<img src="logo png.png" width="120"><br><br>
+<img src="logo.png" width="120"><br><br>
 
 <h2>Order Detail</h2>
 
-</div>
+<div class="bill-box">
 
 <div id="bill"></div>
 
+</div>
+
 <br>
 
-<h3 style="text-align:center">สแกนจ่ายเงิน</h3>
+<h3>สแกนจ่ายเงิน</h3>
 
-<div style="text-align:center">
 <img id="qr" width="250">
-</div>
 
 <script>
 
@@ -61,10 +75,8 @@ ${itemList}<br>
 Total : ${total} บาท
 `
 
-// เบอร์พร้อมเพย์ร้าน
 let phone = "0954693100"
 
-// สร้าง QR พร้อมเพย์
 let qrURL = "https://promptpay.io/"+phone+"/"+total+".png"
 
 document.getElementById("qr").src = qrURL
