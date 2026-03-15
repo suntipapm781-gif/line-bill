@@ -1,126 +1,115 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bill</title>
+<title>การชำระเงิน</title>
 
 <style>
 
 body{
-font-family: Arial;
-background:#f5f5f5;
+font-family:sans-serif;
+background:#f4f6f9;
 margin:0;
 padding:20px;
-text-align:center;
 }
 
 .container{
-max-width:420px;
+max-width:500px;
 margin:auto;
 background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+border-radius:16px;
+padding:20px;
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
-.logo{
-width:110px;
-margin-bottom:10px;
-}
-
-h2{
-margin-top:5px;
-font-size:24px;
-}
-
-.bill{
-text-align:left;
-font-size:18px;
-line-height:1.6;
-margin-top:15px;
-}
-
-.total{
-font-size:20px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.qr-title{
-margin-top:25px;
-font-size:18px;
+.title{
+font-size:22px;
+font-weight:600;
+margin-bottom:20px;
 }
 
 .qr{
-width:260px;
-margin-top:10px;
+text-align:center;
+margin-bottom:20px;
+}
+
+.qr img{
+width:220px;
+border-radius:12px;
+}
+
+.info{
+background:#f7f9fc;
+padding:20px;
+border-radius:12px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin-bottom:14px;
+font-size:15px;
+}
+
+.label{
+color:#666;
+}
+
+.value{
+font-weight:600;
+}
+
+.amount{
+color:#0066ff;
+font-weight:700;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<img src="logo png.png" class="logo">
+<div class="title">💳 การชำระเงิน</div>
 
-<h2>Order Detail</h2>
+<div class="qr">
+<p>สแกนเพื่อชำระเงิน</p>
+<img src="qr.png">
+</div>
 
-<div id="bill" class="bill"></div>
+<div class="info">
 
-<div class="qr-title">สแกนจ่ายเงิน</div>
+<div class="row">
+<div class="label">เลขออเดอร์</div>
+<div class="value">DNB0636</div>
+</div>
 
-<img id="qr" class="qr">
+<div class="row">
+<div class="label">เลขที่บัญชี</div>
+<div class="value">0508347642</div>
+</div>
+
+<div class="row">
+<div class="label">ชื่อบัญชี</div>
+<div class="value">สันติภาพ มีมั่งคั่ง</div>
+</div>
+
+<div class="row">
+<div class="label">ธนาคาร</div>
+<div class="value">กสิกร (KPLUS)</div>
+</div>
+
+<div class="row">
+<div class="label">ยอดเงิน</div>
+<div class="amount">฿ 210.00</div>
+</div>
 
 </div>
 
-<script>
-
-const params = new URLSearchParams(window.location.search)
-
-const id = params.get("id")
-const name = params.get("name")
-const total = params.get("total")
-const items = params.get("items")
-
-let itemList = ""
-
-if(items){
-
-let arr = items.split(",")
-
-arr.forEach(i=>{
-
-let p = i.split(":")
-
-itemList += p[0]+" = "+p[1]+" บาท<br>"
-
-})
-
-}
-
-document.getElementById("bill").innerHTML = `
-Order ID : ${id}<br><br>
-Customer : ${name}<br><br>
-
-รายการ<br>
-${itemList}<br>
-
-<div class="total">Total : ${total} บาท</div>
-`
-
-let phone = "0954693100"
-
-let qrURL = "https://promptpay.io/"+phone+"/"+total+".png"
-
-document.getElementById("qr").src = qrURL
-
-</script>
+</div>
 
 </body>
 </html>
