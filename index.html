@@ -112,22 +112,22 @@ font-weight:700;
 <div class="order-title">Order Detail</div>
 
 <div class="order-text">
-Order ID : <span class="order-id">20586</span>
+Order ID : <span class="order-id">-</span>
 </div>
 
 <div class="order-text">
-Customer : <span class="customer">kkk</span>
+Customer : <span class="customer">-</span>
 </div>
 
 <br>
 
 <div>รายการ</div>
 
-<div class="item1">k1 = 200 บาท</div>
-<div class="item2">k2 = 200 บาท</div>
-<div class="item3">k23 = 2002 บาท</div>
+<div class="item1">-</div>
+<div class="item2">-</div>
+<div class="item3">-</div>
 
-<div class="total">Total : 2402 บาท</div>
+<div class="total">Total : 0 บาท</div>
 
 </div>
 
@@ -135,7 +135,7 @@ Customer : <span class="customer">kkk</span>
 
 <p>สแกนเพื่อชำระเงิน</p>
 
-<img src="https://promptpay.io/0508347642/2402.png">
+<img src="https://promptpay.io/0508347642/0.png">
 
 </div>
 
@@ -143,7 +143,7 @@ Customer : <span class="customer">kkk</span>
 
 <div class="row">
 <div class="label">เลขออเดอร์</div>
-<div class="value">DNB0636</div>
+<div class="value order-number">-</div>
 </div>
 
 <div class="row">
@@ -163,7 +163,7 @@ Customer : <span class="customer">kkk</span>
 
 <div class="row">
 <div class="label">ยอดเงิน</div>
-<div class="amount">฿ 2402.00</div>
+<div class="amount">฿ 0.00</div>
 </div>
 
 </div>
@@ -187,6 +187,8 @@ const total = params.get("total");
 if(order){
 
 document.querySelector(".order-id").innerText = order;
+document.querySelector(".order-number").innerText = order;
+
 document.querySelector(".customer").innerText = customer;
 
 document.querySelector(".item1").innerText = i1 + " = " + p1 + " บาท";
