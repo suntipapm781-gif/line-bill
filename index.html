@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>การชำระเงิน</title>
+<title>Order Payment</title>
 
 <style>
 
@@ -36,21 +36,42 @@ height:120px;
 .title{
 font-size:22px;
 font-weight:600;
-margin-bottom:20px;
+margin-bottom:15px;
+}
+
+.order-box{
+background:#ffffff;
+padding:10px 0 20px 0;
+}
+
+.order-title{
+font-size:24px;
+font-weight:700;
+margin-bottom:15px;
+}
+
+.order-text{
+font-size:18px;
+margin-bottom:10px;
+}
+
+.total{
+font-size:22px;
+font-weight:700;
+margin-top:20px;
 }
 
 .qr{
 text-align:center;
-margin-bottom:20px;
+margin:20px 0;
 }
 
 .qr img{
-width:220px;
-border-radius:12px;
+width:230px;
 }
 
 .info{
-background:#f7f9fc;
+background:#f1f3f6;
 padding:20px;
 border-radius:12px;
 }
@@ -58,8 +79,7 @@ border-radius:12px;
 .row{
 display:flex;
 justify-content:space-between;
-margin-bottom:14px;
-font-size:15px;
+margin-bottom:12px;
 }
 
 .label{
@@ -71,7 +91,7 @@ font-weight:600;
 }
 
 .amount{
-color:#0066ff;
+color:#1677ff;
 font-weight:700;
 }
 
@@ -88,11 +108,28 @@ font-weight:700;
 
 <div class="title">การชำระเงิน</div>
 
+<div class="order-box">
+
+<div class="order-title">Order Detail</div>
+
+<div class="order-text">Order ID : 20586</div>
+
+<div class="order-text">Customer : kkk</div>
+
+<br>
+
+<div class="order-text">รายการ</div>
+<div class="order-text">k1 = 200 บาท</div>
+<div class="order-text">k2 = 200 บาท</div>
+<div class="order-text">k23 = 2002 บาท</div>
+
+<div class="total">Total : 2402 บาท</div>
+
+</div>
+
 <div class="qr">
 <p>สแกนเพื่อชำระเงิน</p>
-
 <img src="https://promptpay.io/0508347642/210.png">
-
 </div>
 
 <div class="info">
