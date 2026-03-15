@@ -166,6 +166,11 @@ Customer : <span class="customer">-</span>
 <div class="amount">฿ 0.00</div>
 </div>
 
+<div class="row">
+<div class="label">วันที่</div>
+<div class="value date"></div>
+</div>
+
 </div>
 
 </div>
@@ -203,6 +208,26 @@ document.querySelector(".qr img").src =
 "https://promptpay.io/0508347642/"+total+".png";
 
 }
+
+// วันที่ปัจจุบัน
+const today = new Date();
+
+const options = {
+year: "numeric",
+month: "short",
+day: "numeric"
+};
+
+let fullDate = today.toLocaleDateString("th-TH", options);
+
+let d = String(today.getDate()).padStart(2,"0");
+let m = String(today.getMonth()+1).padStart(2,"0");
+let y = String(today.getFullYear()).slice(-2);
+
+let shortDate = d + m + y;
+
+document.querySelector(".date").innerText =
+fullDate + " (" + shortDate + ")";
 
 </script>
 
