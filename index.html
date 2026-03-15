@@ -214,7 +214,7 @@ const total = params.get("total");
 
 // ถ้าไม่มี Order ID ให้สุ่ม
 if(!order){
-order = "ORD" + Math.floor(100000 + Math.random() * 900000);
+order = "ORD"+Math.floor(100000+Math.random()*900000);
 }
 
 document.querySelector(".order-id").innerText = order;
@@ -225,22 +225,22 @@ document.querySelector(".customer").innerText = customer;
 }
 
 if(i1){
-document.querySelector(".item1").innerText = i1 + " = " + p1 + " บาท";
+document.querySelector(".item1").innerText = i1+" = "+p1+" บาท";
 }
 
 if(i2){
-document.querySelector(".item2").innerText = i2 + " = " + p2 + " บาท";
+document.querySelector(".item2").innerText = i2+" = "+p2+" บาท";
 }
 
 if(i3){
-document.querySelector(".item3").innerText = i3 + " = " + p3 + " บาท";
+document.querySelector(".item3").innerText = i3+" = "+p3+" บาท";
 }
 
 if(total){
 
-document.querySelector(".total").innerText = "Total : " + total + " บาท";
+document.querySelector(".total").innerText = "Total : "+total+" บาท";
 
-document.querySelector(".amount").innerText = "฿ " + total + ".00";
+document.querySelector(".amount").innerText = "฿ "+total+".00";
 
 document.getElementById("qrImage").src =
 "https://promptpay.io/0508347642/"+total+".png";
