@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -8,6 +9,10 @@
 <body>
 
 <h2>สร้างบิล</h2>
+
+<label>ชื่อลูกค้า</label><br> <input id="name" placeholder="เช่น สมชาย"><br><br>
+
+<label>ราคา</label><br> <input id="total" placeholder="เช่น 450"><br><br>
 
 <button onclick="createBill()">สร้างบิล</button>
 
@@ -19,7 +24,10 @@ function createBill(){
 
 let id = Math.floor(Math.random()*100000)
 
-let url = "https://line-bill.vercel.app/?id=" + id
+let name = document.getElementById("name").value
+let total = document.getElementById("total").value
+
+let url = "https://line-bill.vercel.app/?id=" + id + "&name=" + name + "&total=" + total
 
 document.getElementById("link").innerHTML =
 '<a href="'+url+'" target="_blank">'+url+'</a>'
