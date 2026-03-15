@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>สร้างบิล</title>
 
 <style>
+
 body{
 font-family:sans-serif;
 background:#f4f6f9;
@@ -49,6 +51,7 @@ cursor:pointer;
 margin-top:20px;
 word-break:break-all;
 }
+
 </style>
 
 </head>
@@ -79,6 +82,17 @@ word-break:break-all;
 </div>
 
 <script>
+
+// สุ่ม Order ID ตอนเปิดหน้า
+
+function generateOrderID(){
+
+return "ORD"+Math.floor(100000+Math.random()*900000);
+
+}
+
+document.getElementById("order").value = generateOrderID();
+
 
 function createBill(){
 
