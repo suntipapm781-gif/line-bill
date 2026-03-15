@@ -10,9 +10,23 @@
 
 <h1>Order Detail</h1>
 
-<p>Order ID : 001</p>
-<p>Customer : Somchai</p>
-<p>Total : 2500 บาท</p>
+<p id="order">Order ID :</p>
+<p id="customer">Customer :</p>
+<p id="total">Total :</p>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const id = params.get("id") || "0000";
+const customer = params.get("name") || "Unknown";
+const total = params.get("total") || "0";
+
+document.getElementById("order").innerText = "Order ID : " + id;
+document.getElementById("customer").innerText = "Customer : " + customer;
+document.getElementById("total").innerText = "Total : " + total + " บาท";
+
+</script>
 
 </body>
 </html>
