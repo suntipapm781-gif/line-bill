@@ -4,6 +4,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Create Bill</title>
+
+<style>
+
+body{
+font-family: Arial;
+max-width:400px;
+margin:auto;
+padding:30px;
+}
+
+h1{
+text-align:center;
+}
+
+input{
+width:100%;
+padding:8px;
+margin-bottom:12px;
+}
+
+button{
+padding:10px 15px;
+background:#06c755;
+color:white;
+border:none;
+cursor:pointer;
+margin-right:10px;
+}
+
+#result{
+margin-top:15px;
+word-break:break-all;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -19,9 +55,10 @@
 <p>Total</p>
 <input id="total">
 
-<br><br>
+<br>
 
 <button onclick="create()">สร้างลิงก์บิล</button>
+<button onclick="copy()">Copy Link</button>
 
 <p id="result"></p>
 
@@ -39,6 +76,20 @@ document.getElementById("result").innerHTML =
 '<a href="'+link+'" target="_blank">'+link+'</a>';
 
 }
+
+function copy(){
+
+const text = document.getElementById("result").innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("คัดลอกลิงก์แล้ว");
+
+}
+
+// สุ่ม Order ID
+document.getElementById("id").value =
+Math.floor(1000 + Math.random() * 9000);
 
 </script>
 
