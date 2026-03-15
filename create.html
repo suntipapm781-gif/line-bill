@@ -10,9 +10,17 @@
 
 <h2>สร้างบิล</h2>
 
-<label>ชื่อลูกค้า</label><br> <input id="name" placeholder="เช่น สมชาย"><br><br>
+<label>ชื่อลูกค้า</label><br> <input id="name"><br><br>
 
-<label>ราคา</label><br> <input id="total" placeholder="เช่น 450"><br><br>
+<h3>เพิ่มสินค้า</h3>
+
+<input id="item" placeholder="ชื่อสินค้า">
+<input id="price" placeholder="ราคา">
+<button onclick="addItem()">เพิ่มรายการ</button>
+
+<ul id="list"></ul>
+
+<h3 id="total">Total : 0 บาท</h3>
 
 <button onclick="createBill()">สร้างบิล</button>
 
@@ -20,14 +28,32 @@
 
 <script>
 
+let items = []
+let sum = 0
+
+function addItem(){
+
+let item = document.getElementById("item").value
+let price = Number(document.getElementById("price").value)
+
+items.push(item + ":" + price)
+
+sum += price
+
+document.getElementById("list").innerHTML += "<li>"+item+" = "+price+" บาท</li>"
+
+document.getElementById("total").innerText = "Total : "+sum+" บาท"
+
+}
+
 function createBill(){
 
 let id = Math.floor(Math.random()*100000)
-
 let name = document.getElementById("name").value
-let total = document.getElementById("total").value
 
-let url = "https://line-bill.vercel.app/?id=" + id + "&name=" + name + "&total=" + total
+let itemString = items.join(",")
+
+let url = "https://line-bill.vercel.app/?id="+id+"&name="+name+"&items="+itemString+"&total="+sum
 
 document.getElementById("link").innerHTML =
 '<a href="'+url+'" target="_blank">'+url+'</a>'
