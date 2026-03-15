@@ -70,7 +70,7 @@ const id = document.getElementById("id").value;
 const name = document.getElementById("name").value;
 const total = document.getElementById("total").value;
 
-const link = "https://line-bill.vercel.app/?id=" + id + "&name=" + name + "&total=" + total;
+const link = "https://line-bill.vercel.app/?id=" + id + "&name=" + encodeURIComponent(name) + "&total=" + total;
 
 document.getElementById("result").innerHTML =
 '<a href="'+link+'" target="_blank">'+link+'</a>';
