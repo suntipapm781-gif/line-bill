@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Order Payment</title>
+<title>Payment</title>
 
 <style>
 
 body{
 font-family:sans-serif;
 background:#f4f6f9;
-margin:0;
 padding:20px;
 }
 
@@ -40,14 +39,13 @@ margin-bottom:15px;
 }
 
 .order-box{
-background:#ffffff;
-padding:10px 0 20px 0;
+margin-bottom:20px;
 }
 
 .order-title{
 font-size:24px;
 font-weight:700;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
 .order-text{
@@ -58,7 +56,7 @@ margin-bottom:10px;
 .total{
 font-size:22px;
 font-weight:700;
-margin-top:20px;
+margin-top:10px;
 }
 
 .qr{
@@ -67,7 +65,7 @@ margin:20px 0;
 }
 
 .qr img{
-width:230px;
+width:220px;
 }
 
 .info{
@@ -96,6 +94,7 @@ font-weight:700;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -112,24 +111,32 @@ font-weight:700;
 
 <div class="order-title">Order Detail</div>
 
-<div class="order-text">Order ID : 20586</div>
+<div class="order-text">
+Order ID : <span class="order-id">20586</span>
+</div>
 
-<div class="order-text">Customer : kkk</div>
+<div class="order-text">
+Customer : <span class="customer">kkk</span>
+</div>
 
 <br>
 
-<div class="order-text">รายการ</div>
-<div class="order-text">k1 = 200 บาท</div>
-<div class="order-text">k2 = 200 บาท</div>
-<div class="order-text">k23 = 2002 บาท</div>
+<div>รายการ</div>
+
+<div class="item1">k1 = 200 บาท</div>
+<div class="item2">k2 = 200 บาท</div>
+<div class="item3">k23 = 2002 บาท</div>
 
 <div class="total">Total : 2402 บาท</div>
 
 </div>
 
 <div class="qr">
+
 <p>สแกนเพื่อชำระเงิน</p>
-<img src="https://promptpay.io/0508347642/210.png">
+
+<img src="https://promptpay.io/0508347642/2402.png">
+
 </div>
 
 <div class="info">
@@ -156,12 +163,46 @@ font-weight:700;
 
 <div class="row">
 <div class="label">ยอดเงิน</div>
-<div class="amount">฿ 210.00</div>
+<div class="amount">฿ 2402.00</div>
 </div>
 
 </div>
 
 </div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+
+const order = params.get("order");
+const customer = params.get("customer");
+const i1 = params.get("i1");
+const p1 = params.get("p1");
+const i2 = params.get("i2");
+const p2 = params.get("p2");
+const i3 = params.get("i3");
+const p3 = params.get("p3");
+const total = params.get("total");
+
+if(order){
+
+document.querySelector(".order-id").innerText = order;
+document.querySelector(".customer").innerText = customer;
+
+document.querySelector(".item1").innerText = i1 + " = " + p1 + " บาท";
+document.querySelector(".item2").innerText = i2 + " = " + p2 + " บาท";
+document.querySelector(".item3").innerText = i3 + " = " + p3 + " บาท";
+
+document.querySelector(".total").innerText = "Total : " + total + " บาท";
+
+document.querySelector(".amount").innerText = "฿ " + total + ".00";
+
+document.querySelector(".qr img").src =
+"https://promptpay.io/0508347642/"+total+".png";
+
+}
+
+</script>
 
 </body>
 </html>
