@@ -68,6 +68,10 @@ margin:20px 0;
 width:220px;
 }
 
+.qr-buttons{
+margin-top:10px;
+}
+
 .info{
 background:#f1f3f6;
 padding:20px;
@@ -94,9 +98,9 @@ color:#1677ff;
 font-weight:700;
 }
 
-.copy-btn{
+.btn{
 margin-left:8px;
-padding:4px 10px;
+padding:6px 10px;
 border:none;
 background:#1677ff;
 color:white;
@@ -147,7 +151,11 @@ Customer : <span class="customer">-</span>
 
 <p>สแกนเพื่อชำระเงิน</p>
 
-<img src="https://promptpay.io/0508347642/0.png">
+<img id="qrImage" src="https://promptpay.io/0508347642/0.png">
+
+<div class="qr-buttons">
+<button class="btn" onclick="saveQR()">บันทึก QR</button>
+</div>
 
 </div>
 
@@ -161,8 +169,8 @@ Customer : <span class="customer">-</span>
 <div class="row">
 <div class="label">เลขที่บัญชี</div>
 <div class="value">
-<button class="copy-btn" onclick="copyAccount()">คัดลอก</button>
 <span id="accountNumber">0508347642</span>
+<button class="btn" onclick="copyAccount()">คัดลอก</button>
 </div>
 </div>
 
@@ -194,7 +202,7 @@ Customer : <span class="customer">-</span>
 
 const params = new URLSearchParams(window.location.search);
 
-const order = params.get("order");
+let order = params.get("order");
 const customer = params.get("customer");
 const i1 = params.get("i1");
 const p1 = params.get("p1");
@@ -204,22 +212,37 @@ const i3 = params.get("i3");
 const p3 = params.get("p3");
 const total = params.get("total");
 
-if(order){
+// ถ้าไม่มี Order ID ให้สุ่ม
+if(!order){
+order = "ORD" + Math.floor(100000 + Math.random() * 900000);
+}
 
 document.querySelector(".order-id").innerText = order;
 document.querySelector(".order-number").innerText = order;
 
+if(customer){
 document.querySelector(".customer").innerText = customer;
+}
 
+if(i1){
 document.querySelector(".item1").innerText = i1 + " = " + p1 + " บาท";
+}
+
+if(i2){
 document.querySelector(".item2").innerText = i2 + " = " + p2 + " บาท";
+}
+
+if(i3){
 document.querySelector(".item3").innerText = i3 + " = " + p3 + " บาท";
+}
+
+if(total){
 
 document.querySelector(".total").innerText = "Total : " + total + " บาท";
 
 document.querySelector(".amount").innerText = "฿ " + total + ".00";
 
-document.querySelector(".qr img").src =
+document.getElementById("qrImage").src =
 "https://promptpay.io/0508347642/"+total+".png";
 
 }
@@ -229,21 +252,23 @@ document.querySelector(".qr img").src =
 const today = new Date();
 
 const options = {
-year: "numeric",
-month: "short",
-day: "numeric"
+year:"numeric",
+month:"short",
+day:"numeric"
 };
 
-let fullDate = today.toLocaleDateString("th-TH", options);
+let fullDate = today.toLocaleDateString("th-TH",options);
 
 let d = String(today.getDate()).padStart(2,"0");
 let m = String(today.getMonth()+1).padStart(2,"0");
 let y = String(today.getFullYear()).slice(-2);
 
-let shortDate = d + m + y;
+let shortDate = d+m+y;
 
 document.querySelector(".date").innerText =
-fullDate + " (" + shortDate + ")";
+fullDate+" ("+shortDate+")";
+
+// คัดลอกเลขบัญชี
 
 function copyAccount(){
 
@@ -253,6 +278,22 @@ document.getElementById("accountNumber").innerText;
 navigator.clipboard.writeText(text);
 
 alert("คัดลอกเลขบัญชีแล้ว");
+
+}
+
+// บันทึก QR
+
+function saveQR(){
+
+const img = document.getElementById("qrImage").src;
+
+const a = document.createElement("a");
+
+a.href = img;
+
+a.download = "promptpay-qr.png";
+
+a.click();
 
 }
 
