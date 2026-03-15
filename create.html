@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Create Bill</title>
+</head>
+
+<body>
+
+<h1>สร้างบิล</h1>
+
+<p>Order ID</p>
+<input id="id">
+
+<p>Customer Name</p>
+<input id="name">
+
+<p>Total</p>
+<input id="total">
+
+<br><br>
+
+<button onclick="create()">สร้างลิงก์บิล</button>
+
+<p id="result"></p>
+
+<script>
+
+function create(){
+
+const id = document.getElementById("id").value;
+const name = document.getElementById("name").value;
+const total = document.getElementById("total").value;
+
+const link = "https://line-bill.vercel.app/?id=" + id + "&name=" + name + "&total=" + total;
+
+document.getElementById("result").innerHTML =
+'<a href="'+link+'" target="_blank">'+link+'</a>';
+
+}
+
+</script>
+
+</body>
+</html>
