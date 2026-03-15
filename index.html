@@ -3,19 +3,60 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bill</title>
 
 <style>
 
 body{
 font-family: Arial;
+background:#f5f5f5;
+margin:0;
+padding:20px;
 text-align:center;
 }
 
-.bill-box{
-max-width:400px;
+.container{
+max-width:420px;
 margin:auto;
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.logo{
+width:110px;
+margin-bottom:10px;
+}
+
+h2{
+margin-top:5px;
+font-size:24px;
+}
+
+.bill{
 text-align:left;
+font-size:18px;
+line-height:1.6;
+margin-top:15px;
+}
+
+.total{
+font-size:20px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.qr-title{
+margin-top:25px;
+font-size:18px;
+}
+
+.qr{
+width:260px;
+margin-top:10px;
 }
 
 </style>
@@ -24,21 +65,19 @@ text-align:left;
 
 <body>
 
-<img src="logo png.png" width="120"><br><br>
+<div class="container">
+
+<img src="logo png.png" class="logo">
 
 <h2>Order Detail</h2>
 
-<div class="bill-box">
+<div id="bill" class="bill"></div>
 
-<div id="bill"></div>
+<div class="qr-title">สแกนจ่ายเงิน</div>
+
+<img id="qr" class="qr">
 
 </div>
-
-<br>
-
-<h3>สแกนจ่ายเงิน</h3>
-
-<img id="qr" width="250">
 
 <script>
 
@@ -72,7 +111,7 @@ Customer : ${name}<br><br>
 รายการ<br>
 ${itemList}<br>
 
-Total : ${total} บาท
+<div class="total">Total : ${total} บาท</div>
 `
 
 let phone = "0954693100"
