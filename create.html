@@ -18,6 +18,11 @@ margin:auto;
 background:white;
 padding:20px;
 border-radius:12px;
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-bottom:20px;
 }
 
 input{
@@ -26,6 +31,7 @@ padding:10px;
 margin-bottom:10px;
 border-radius:8px;
 border:1px solid #ccc;
+font-size:16px;
 }
 
 button{
@@ -36,6 +42,7 @@ color:white;
 border:none;
 border-radius:8px;
 font-size:16px;
+cursor:pointer;
 }
 
 .result{
@@ -65,7 +72,7 @@ word-break:break-all;
 <input id="item3" placeholder="สินค้า 3">
 <input id="price3" placeholder="ราคา 3">
 
-<button onclick="createBill()">สร้างบิล</button>
+<button onclick="createBill()">สร้างลิงก์บิล</button>
 
 <div class="result" id="result"></div>
 
@@ -87,14 +94,14 @@ let price2=document.getElementById("price2").value
 let item3=document.getElementById("item3").value
 let price3=document.getElementById("price3").value
 
-let total=
-Number(price1)+
-Number(price2)+
-Number(price3)
+let total =
+Number(price1||0) +
+Number(price2||0) +
+Number(price3||0)
 
-let url=
-location.origin+
-"/?order="+order+
+let url =
+"index.html"+
+"?order="+order+
 "&customer="+customer+
 "&i1="+item1+
 "&p1="+price1+
@@ -104,9 +111,8 @@ location.origin+
 "&p3="+price3+
 "&total="+total
 
-document.getElementById("result").innerHTML=
-
-"ลิงก์บิล:<br><br>"+url
+document.getElementById("result").innerHTML =
+"ลิงก์บิล:<br><br><a href='"+url+"' target='_blank'>"+url+"</a>"
 
 }
 
