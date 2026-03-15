@@ -1,95 +1,30 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
 <title>Create Bill</title>
-
-<style>
-
-body{
-font-family: Arial;
-max-width:400px;
-margin:auto;
-padding:30px;
-}
-
-h1{
-text-align:center;
-}
-
-input{
-width:100%;
-padding:8px;
-margin-bottom:12px;
-}
-
-button{
-padding:10px 15px;
-background:#06c755;
-color:white;
-border:none;
-cursor:pointer;
-margin-right:10px;
-}
-
-#result{
-margin-top:15px;
-word-break:break-all;
-}
-
-</style>
-
 </head>
 
 <body>
 
-<h1>สร้างบิล</h1>
+<h2>สร้างบิล</h2>
 
-<p>Order ID</p>
-<input id="id">
+<button onclick="createBill()">สร้างบิล</button>
 
-<p>Customer Name</p>
-<input id="name">
-
-<p>Total</p>
-<input id="total">
-
-<br>
-
-<button onclick="create()">สร้างลิงก์บิล</button>
-<button onclick="copy()">Copy Link</button>
-
-<p id="result"></p>
+<p id="link"></p>
 
 <script>
 
-function create(){
+function createBill(){
 
-const id = document.getElementById("id").value;
-const name = document.getElementById("name").value;
-const total = document.getElementById("total").value;
+let id = Math.floor(Math.random()*100000)
 
-const link = "https://line-bill.vercel.app/?id=" + id + "&name=" + encodeURIComponent(name) + "&total=" + total;
+let url = "https://line-bill.vercel.app/?id=" + id
 
-document.getElementById("result").innerHTML =
-'<a href="'+link+'" target="_blank">'+link+'</a>';
+document.getElementById("link").innerHTML =
+'<a href="'+url+'" target="_blank">'+url+'</a>'
 
 }
-
-function copy(){
-
-const text = document.getElementById("result").innerText;
-
-navigator.clipboard.writeText(text);
-
-alert("คัดลอกลิงก์แล้ว");
-
-}
-
-// สุ่ม Order ID
-document.getElementById("id").value =
-Math.floor(1000 + Math.random() * 9000);
 
 </script>
 
