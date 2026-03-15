@@ -12,6 +12,11 @@
 
 <div id="bill"></div>
 
+<br>
+<h3>สแกนจ่ายเงิน</h3>
+
+<img id="qr" width="250">
+
 <script>
 
 const params = new URLSearchParams(window.location.search)
@@ -46,6 +51,14 @@ ${itemList}<br>
 
 Total : ${total} บาท
 `
+
+// เบอร์พร้อมเพย์ร้าน
+let phone = "0954693100"
+
+// สร้าง QR พร้อมเพย์
+let qrURL = "https://promptpay.io/"+phone+"/"+total+".png"
+
+document.getElementById("qr").src = qrURL
 
 </script>
 
