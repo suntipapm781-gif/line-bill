@@ -26,6 +26,8 @@
 
 <p id="link"></p>
 
+<button onclick="copyLink()">คัดลอกลิงก์บิล</button>
+
 <script>
 
 let items = []
@@ -49,6 +51,7 @@ document.getElementById("total").innerText = "Total : "+sum+" บาท"
 function createBill(){
 
 let id = Math.floor(Math.random()*100000)
+
 let name = document.getElementById("name").value
 
 let itemString = items.join(",")
@@ -57,6 +60,21 @@ let url = "https://line-bill.vercel.app/?id="+id+"&name="+name+"&items="+itemStr
 
 document.getElementById("link").innerHTML =
 '<a href="'+url+'" target="_blank">'+url+'</a>'
+
+}
+
+function copyLink(){
+
+let link = document.querySelector("#link a")
+
+if(!link){
+alert("กรุณาสร้างบิลก่อน")
+return
+}
+
+navigator.clipboard.writeText(link.href)
+
+alert("คัดลอกลิงก์แล้ว")
 
 }
 
