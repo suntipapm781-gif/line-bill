@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 <meta charset="UTF-8">
-<title>Order</title>
+<title>Bill</title>
 </head>
 
 <body>
 
-<h1>Order Detail</h1>
+<h2>Order Detail</h2>
 
-<p id="order">Order ID :</p>
-<p id="customer">Customer :</p>
-<p id="total">Total :</p>
+<div id="bill"></div>
 
 <script>
 
-const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search)
 
-const id = params.get("id") || "0000";
-const customer = params.get("name") || "Unknown";
-const total = params.get("total") || "0";
+const id = params.get("id")
+const name = params.get("name")
+const total = params.get("total")
 
-document.getElementById("order").innerText = "Order ID : " + id;
-document.getElementById("customer").innerText = "Customer : " + customer;
-document.getElementById("total").innerText = "Total : " + total + " บาท";
+document.getElementById("bill").innerHTML =
+`
+Order ID : ${id}<br><br>
+Customer : ${name}<br><br>
+Total : ${total} บาท
+`
 
 </script>
 
