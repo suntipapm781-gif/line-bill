@@ -1,80 +1,120 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Create Bill</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>สร้างออเดอร์</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+background:#f4f6f9;
+padding:20px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:16px;
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-bottom:12px;
+border-radius:8px;
+border:1px solid #ddd;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#1677ff;
+color:white;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+}
+
+.result{
+margin-top:20px;
+word-break:break-all;
+}
+
+</style>
 </head>
 
 <body>
 
-<h2>สร้างบิล</h2>
+<div class="container">
 
-<label>ชื่อลูกค้า</label><br> <input id="name"><br><br>
+<h2>สร้างออเดอร์</h2>
 
-<h3>เพิ่มสินค้า</h3>
+<input id="orderId" placeholder="Order ID">
 
-<input id="item" placeholder="ชื่อสินค้า">
-<input id="price" placeholder="ราคา">
-<button onclick="addItem()">เพิ่มรายการ</button>
+<input id="customer" placeholder="Customer">
 
-<ul id="list"></ul>
+<input id="item1" placeholder="สินค้า 1">
 
-<h3 id="total">Total : 0 บาท</h3>
+<input id="price1" placeholder="ราคา 1">
+
+<input id="item2" placeholder="สินค้า 2">
+
+<input id="price2" placeholder="ราคา 2">
+
+<input id="item3" placeholder="สินค้า 3">
+
+<input id="price3" placeholder="ราคา 3">
 
 <button onclick="createBill()">สร้างบิล</button>
 
-<p id="link"></p>
+<div class="result" id="result"></div>
 
-<button onclick="copyLink()">คัดลอกลิงก์บิล</button>
+</div>
 
 <script>
 
-let items = []
-let sum = 0
-
-function addItem(){
-
-let item = document.getElementById("item").value
-let price = Number(document.getElementById("price").value)
-
-items.push(item + ":" + price)
-
-sum += price
-
-document.getElementById("list").innerHTML += "<li>"+item+" = "+price+" บาท</li>"
-
-document.getElementById("total").innerText = "Total : "+sum+" บาท"
-
-}
-
 function createBill(){
 
-let id = Math.floor(Math.random()*100000)
+let orderId=document.getElementById("orderId").value
+let customer=document.getElementById("customer").value
 
-let name = document.getElementById("name").value
+let item1=document.getElementById("item1").value
+let price1=document.getElementById("price1").value
 
-let itemString = items.join(",")
+let item2=document.getElementById("item2").value
+let price2=document.getElementById("price2").value
 
-let url = "https://line-bill.vercel.app/?id="+id+"&name="+name+"&items="+itemString+"&total="+sum
+let item3=document.getElementById("item3").value
+let price3=document.getElementById("price3").value
 
-document.getElementById("link").innerHTML =
-'<a href="'+url+'" target="_blank">'+url+'</a>'
+let total=Number(price1)+Number(price2)+Number(price3)
 
-}
+let url=location.origin+
+"/?order="+orderId+
+"&customer="+customer+
+"&i1="+item1+
+"&p1="+price1+
+"&i2="+item2+
+"&p2="+price2+
+"&i3="+item3+
+"&p3="+price3+
+"&total="+total
 
-function copyLink(){
+document.getElementById("result").innerHTML=
 
-let link = document.querySelector("#link a")
-
-if(!link){
-alert("กรุณาสร้างบิลก่อน")
-return
-}
-
-navigator.clipboard.writeText(link.href)
-
-alert("คัดลอกลิงก์แล้ว")
+"ลิงก์บิล:<br><br>"+url
 
 }
 
