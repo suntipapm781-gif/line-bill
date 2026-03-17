@@ -7,7 +7,6 @@
 <title>สร้างบิล</title>
 
 <style>
-
 body{
 font-family:sans-serif;
 background:#f4f6f9;
@@ -51,7 +50,6 @@ cursor:pointer;
 margin-top:20px;
 word-break:break-all;
 }
-
 </style>
 
 </head>
@@ -86,16 +84,12 @@ word-break:break-all;
 
 <script>
 
-// สุ่ม Order ID ตอนเปิดหน้า
-
+// สุ่ม Order ID
 function generateOrderID(){
-
 return "ORD"+Math.floor(100000+Math.random()*900000);
-
 }
 
 document.getElementById("order").value = generateOrderID();
-
 
 function createBill(){
 
@@ -104,28 +98,44 @@ let customer=document.getElementById("customer").value
 
 let item1=document.getElementById("item1").value
 let price1=document.getElementById("price1").value
+let qty1=document.getElementById("qty1").value
 
 let item2=document.getElementById("item2").value
 let price2=document.getElementById("price2").value
+let qty2=document.getElementById("qty2").value
 
 let item3=document.getElementById("item3").value
 let price3=document.getElementById("price3").value
+let qty3=document.getElementById("qty3").value
 
-let total =
-Number(price1||0) +
-Number(price2||0) +
-Number(price3||0)
+// คำนวณ
+let sum1 = Number(price1||0) * Number(qty1||0)
+let sum2 = Number(price2||0) * Number(qty2||0)
+let sum3 = Number(price3||0) * Number(qty3||0)
 
+let total = sum1 + sum2 + sum3
+
+// สร้าง URL
 let url =
 "index.html"+
 "?order="+order+
 "&customer="+customer+
+
 "&i1="+item1+
 "&p1="+price1+
+"&q1="+qty1+
+"&s1="+sum1+
+
 "&i2="+item2+
 "&p2="+price2+
+"&q2="+qty2+
+"&s2="+sum2+
+
 "&i3="+item3+
 "&p3="+price3+
+"&q3="+qty3+
+"&s3="+sum3+
+
 "&total="+total
 
 document.getElementById("result").innerHTML =
