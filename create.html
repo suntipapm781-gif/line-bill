@@ -7,60 +7,71 @@
 <title>สร้างบิล</title>
 
 <style>
-body{font-family:sans-serif;background:#f4f6f9;padding:20px;}
+body{
+    font-family:sans-serif;
+    background:#f4f6f9;
+    padding:20px;
+}
 
 .container{
-max-width:500px;
-margin:auto;
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    max-width:500px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
 .logo{text-align:center;margin-bottom:10px;}
 .logo img{height:120px;}
 
-.label{font-weight:600;margin:10px 0 5px;display:block;}
+.label{
+    font-weight:600;
+    margin:10px 0 5px;
+    display:block;
+}
 
 input,select{
-width:100%;
-padding:10px;
-border-radius:8px;
-border:1px solid #ccc;
+    width:100%;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
 }
 
 .row{
-display:grid;
-grid-template-columns:2fr 1fr 1fr 1fr;
-gap:8px;
-margin-bottom:8px;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:8px;
+    margin-bottom:8px;
 }
 
 .header{
-font-weight:600;
-background:#f1f3f6;
-padding:8px;
-border-radius:6px;
-display:grid;
-grid-template-columns:2fr 1fr 1fr 1fr;
-text-align:center;
+    font-weight:600;
+    background:#f1f3f6;
+    padding:8px;
+    border-radius:6px;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    text-align:center;
 }
 
 button{
-width:100%;
-padding:12px;
-background:#1677ff;
-color:white;
-border:none;
-border-radius:8px;
-margin-top:10px;
-cursor:pointer;
+    width:100%;
+    padding:12px;
+    background:#1677ff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    margin-top:10px;
+    cursor:pointer;
 }
 
 .add-btn{background:#00b894;}
 
-.result{margin-top:15px;word-break:break-all;}
+.result{
+    margin-top:15px;
+    word-break:break-all;
+}
 </style>
 
 </head>
@@ -103,66 +114,85 @@ cursor:pointer;
 
 <script>
 
-// 🔥 รายการสินค้า (อ่านง่าย + เว้นวรรค)
+// 🔥 รายการสินค้า
 const productList = {
-"สติกเกอร์ 12 ชิ้น": 299,
-"สติกเกอร์ 28 ชิ้น": 399,
-"สติกเกอร์ 36 ชิ้น": 499,
-"สติกเกอร์ 54 ชิ้น": 699,
-"สติกเกอร์ 108 ชิ้น": 999
+    "สติกเกอร์ 12 ชิ้น": 299,
+    "สติกเกอร์ 28 ชิ้น": 399,
+    "สติกเกอร์ 36 ชิ้น": 499,
+    "สติกเกอร์ 54 ชิ้น": 699,
+    "สติกเกอร์ 108 ชิ้น": 999
 };
 
-// สร้าง Order ID
+// สุ่ม Order ID
 document.getElementById("order").value =
 "ORD"+Math.floor(100000+Math.random()*900000);
 
 // เพิ่มแถวสินค้า
 function addRow(){
 
-let row=document.createElement("div");
-row.className="row";
+    let row = document.createElement("div");
+    row.className = "row";
 
-let options = `<option value="">เลือกสินค้า</option>`;
-for(let name in productList){
-options += `<option value="${name}">${name}</option>`;
+    let options = `<option value="">เลือกสินค้า</option>`;
+
+    for(let name in productList){
+        options += `<option value="${name}">${name}</option>`;
+    }
+
+    options += `<option value="custom">อื่นๆ</option>`;
+
+    row.innerHTML = `
+    <div>
+        <select class="item" onchange="setPrice(this)">
+            ${options}
+        </select>
+        <input class="custom-item" placeholder="พิมพ์ชื่อสินค้า" style="display:none; margin-top:5px;">
+    </div>
+
+    <input class="price" placeholder="ราคา">
+    <input class="qty" placeholder="จำนวน" value="1" oninput="calc(this)">
+    <input class="sum" placeholder="รวม" disabled>
+    `;
+
+    document.getElementById("items").appendChild(row);
 }
 
-row.innerHTML=`
-<select class="item" onchange="setPrice(this)">
-${options}
-</select>
-
-<input class="price" placeholder="ราคา">
-<input class="qty" placeholder="จำนวน" value="1" oninput="calc(this)">
-<input class="sum" placeholder="รวม" disabled>
-`;
-
-document.getElementById("items").appendChild(row);
-}
-
-// ตั้งราคาอัตโนมัติ
+// ตั้งราคา + โหมดอื่นๆ
 function setPrice(el){
-let row = el.parentElement;
-let priceInput = row.querySelector(".price");
 
-let value = el.value;
-if(productList[value]){
-priceInput.value = productList[value];
-}
+    let row = el.closest(".row");
+    let priceInput = row.querySelector(".price");
+    let customInput = row.querySelector(".custom-item");
 
-calc(el);
+    let value = el.value;
+
+    // เลือก "อื่นๆ"
+    if(value === "custom"){
+        customInput.style.display = "block";
+        priceInput.value = "";
+        return;
+    }else{
+        customInput.style.display = "none";
+    }
+
+    if(productList[value]){
+        priceInput.value = productList[value];
+    }
+
+    calc(el);
 }
 
 // คำนวณ
 function calc(el){
-let row = el.parentElement;
 
-let price = row.querySelector(".price").value;
-let qty = row.querySelector(".qty").value;
+    let row = el.closest(".row");
 
-let sum = (Number(price)||0)*(Number(qty)||0);
+    let price = row.querySelector(".price").value;
+    let qty = row.querySelector(".qty").value;
 
-row.querySelector(".sum").value = sum;
+    let sum = (Number(price)||0) * (Number(qty)||0);
+
+    row.querySelector(".sum").value = sum;
 }
 
 // เริ่มต้น 1 แถว
@@ -171,43 +201,46 @@ addRow();
 // สร้างลิงก์
 function createBill(){
 
-let order=document.getElementById("order").value;
-let customer=document.getElementById("customer").value;
-let shipping=document.getElementById("shipping").value;
+    let order = document.getElementById("order").value;
+    let customer = document.getElementById("customer").value;
+    let shipping = document.getElementById("shipping").value;
 
-let rows=document.querySelectorAll(".row");
+    let rows = document.querySelectorAll(".row");
 
-let url="index.html?order="+order+"&customer="+customer;
+    let url = "index.html?order="+order+"&customer="+customer;
 
-let total=0;
+    let total = 0;
 
-rows.forEach((row,i)=>{
+    rows.forEach((row,i)=>{
 
-let item=row.querySelector(".item").value;
-let price=row.querySelector(".price").value;
-let qty=row.querySelector(".qty").value;
-let sum=row.querySelector(".sum").value;
+        let itemSelect = row.querySelector(".item").value;
+        let customItem = row.querySelector(".custom-item").value;
 
-if(item){
-url+=`&i${i+1}=${item}&p${i+1}=${price}&q${i+1}=${qty}&s${i+1}=${sum}`;
-total+=Number(sum||0);
-}
+        let item = itemSelect === "custom" ? customItem : itemSelect;
 
-});
+        let price = row.querySelector(".price").value;
+        let qty = row.querySelector(".qty").value;
+        let sum = row.querySelector(".sum").value;
 
-// รองรับ "ฟรี"
-let shippingValue = Number(shipping);
-if(isNaN(shippingValue)){
-shippingValue = 0;
-}
+        if(item){
+            url += `&i${i+1}=${item}&p${i+1}=${price}&q${i+1}=${qty}&s${i+1}=${sum}`;
+            total += Number(sum||0);
+        }
 
-let final = total + shippingValue;
+    });
 
-url+=`&total=${total}&shipping=${shipping}&shippingValue=${shippingValue}&final=${final}`;
+    // ค่าส่ง
+    let shippingValue = Number(shipping);
+    if(isNaN(shippingValue)){
+        shippingValue = 0;
+    }
 
-document.getElementById("result").innerHTML =
-`<a href="${url}" target="_blank">${url}</a>`;
+    let final = total + shippingValue;
 
+    url += `&total=${total}&shipping=${shipping}&shippingValue=${shippingValue}&final=${final}`;
+
+    document.getElementById("result").innerHTML =
+    `<a href="${url}" target="_blank">${url}</a>`;
 }
 
 </script>
