@@ -14,11 +14,11 @@ body{
 }
 
 .container{
-    max-width:500px;
+    max-width:520px;
     margin:auto;
     background:white;
     padding:20px;
-    border-radius:12px;
+    border-radius:16px;
     box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
@@ -34,25 +34,46 @@ body{
 input,select{
     width:100%;
     padding:10px;
-    border-radius:8px;
+    border-radius:10px;
     border:1px solid #ccc;
+    font-size:14px;
 }
 
+/* 🔥 แก้ layout ไม่ให้เบียด */
 .row{
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
-    gap:8px;
-    margin-bottom:8px;
+    grid-template-columns:2fr 1fr 1fr 1.2fr;
+    gap:10px;
+    margin-bottom:10px;
+    align-items:start;
 }
 
 .header{
     font-weight:600;
     background:#f1f3f6;
-    padding:8px;
-    border-radius:6px;
+    padding:10px;
+    border-radius:8px;
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
+    grid-template-columns:2fr 1fr 1fr 1.2fr;
     text-align:center;
+}
+
+/* 🔥 ช่องรวม ดูชัด ไม่เบียด */
+.sum{
+    background:#f8f8f8;
+    text-align:center;
+    font-weight:700;
+}
+
+/* 🔥 custom item เนียนขึ้น */
+.item-box{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.custom-item{
+    font-size:13px;
 }
 
 button{
@@ -61,9 +82,10 @@ button{
     background:#1677ff;
     color:white;
     border:none;
-    border-radius:8px;
+    border-radius:10px;
     margin-top:10px;
     cursor:pointer;
+    font-size:15px;
 }
 
 .add-btn{background:#00b894;}
@@ -114,7 +136,7 @@ button{
 
 <script>
 
-// 🔥 รายการสินค้า
+// รายการสินค้า
 const productList = {
     "สติกเกอร์ 12 ชิ้น": 299,
     "สติกเกอร์ 28 ชิ้น": 399,
@@ -127,7 +149,7 @@ const productList = {
 document.getElementById("order").value =
 "ORD"+Math.floor(100000+Math.random()*900000);
 
-// เพิ่มแถวสินค้า
+// เพิ่มแถว
 function addRow(){
 
     let row = document.createElement("div");
@@ -142,11 +164,11 @@ function addRow(){
     options += `<option value="custom">อื่นๆ</option>`;
 
     row.innerHTML = `
-    <div>
+    <div class="item-box">
         <select class="item" onchange="setPrice(this)">
             ${options}
         </select>
-        <input class="custom-item" placeholder="พิมพ์ชื่อสินค้า" style="display:none; margin-top:5px;">
+        <input class="custom-item" placeholder="พิมพ์ชื่อสินค้า" style="display:none;">
     </div>
 
     <input class="price" placeholder="ราคา">
@@ -157,7 +179,7 @@ function addRow(){
     document.getElementById("items").appendChild(row);
 }
 
-// ตั้งราคา + โหมดอื่นๆ
+// เลือกสินค้า
 function setPrice(el){
 
     let row = el.closest(".row");
@@ -168,7 +190,7 @@ function setPrice(el){
 
     if(value === "custom"){
         customInput.style.display = "block";
-        customInput.focus(); // 🔥 focus อัตโนมัติ
+        customInput.focus();
         priceInput.value = "";
         return;
     }else{
@@ -195,7 +217,7 @@ function calc(el){
     row.querySelector(".sum").value = sum;
 }
 
-// เริ่มต้น 1 แถว
+// เริ่ม 1 แถว
 addRow();
 
 // สร้างลิงก์
@@ -234,11 +256,8 @@ function createBill(){
 
     });
 
-    // ค่าส่ง (รองรับ "ฟรี")
     let shippingValue = Number(shipping);
-    if(isNaN(shippingValue)){
-        shippingValue = 0;
-    }
+    if(isNaN(shippingValue)) shippingValue = 0;
 
     let final = total + shippingValue;
 
