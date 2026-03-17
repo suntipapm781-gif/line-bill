@@ -38,12 +38,13 @@ input,select{
     border:1px solid #ccc;
 }
 
+/* 🔥 layout หลัก */
 .row{
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.2fr 40px;
+    grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
     gap:10px;
     margin-bottom:10px;
-    align-items:start;
+    align-items:center; /* 🔥 แก้ให้ทุกอย่างตรงกัน */
 }
 
 .header{
@@ -52,35 +53,48 @@ input,select{
     padding:10px;
     border-radius:8px;
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.2fr 40px;
+    grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
     text-align:center;
 }
 
+/* 🔥 ช่องสินค้า (dropdown + input อยู่บรรทัดเดียวกัน) */
+.item-box{
+    display:flex;
+    gap:6px;
+    align-items:center;
+}
+
+.item{
+    flex:1;
+}
+
+.custom-item{
+    flex:1;
+    display:none;
+}
+
+/* 🔥 ช่องรวม */
 .sum{
     background:#f8f8f8;
     text-align:center;
     font-weight:700;
 }
 
-.item-box{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-}
-
-.custom-item{
-    font-size:13px;
-}
-
+/* 🔥 ปุ่มลบ */
 .delete-btn{
     background:#ff4d4f;
     color:white;
     border:none;
-    border-radius:8px;
+    border-radius:10px;
     cursor:pointer;
     height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
 }
 
+/* ปุ่มทั่วไป */
 button{
     width:100%;
     padding:12px;
@@ -173,7 +187,7 @@ function addRow(){
         <select class="item" onchange="setPrice(this)">
             ${options}
         </select>
-        <input class="custom-item" placeholder="พิมพ์ชื่อสินค้า" style="display:none;">
+        <input class="custom-item" placeholder="ชื่อสินค้า">
     </div>
 
     <input class="price" placeholder="ราคา">
