@@ -31,14 +31,13 @@ body{
     display:block;
 }
 
-input,select{
+input{
     width:100%;
     padding:10px;
     border-radius:10px;
     border:1px solid #ccc;
 }
 
-/* 🔥 layout หลัก */
 .row{
     display:grid;
     grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
@@ -57,30 +56,12 @@ input,select{
     text-align:center;
 }
 
-/* 🔥 ช่องสินค้า */
-.item-box{
-    display:flex;
-    gap:6px;
-    align-items:center;
-}
-
-.item{
-    flex:1;
-}
-
-.custom-item{
-    flex:1;
-    display:none;
-}
-
-/* 🔥 ช่องรวม */
 .sum{
     background:#f8f8f8;
     text-align:center;
     font-weight:700;
 }
 
-/* 🔥 ปุ่มลบ */
 .delete-btn{
     background:#ff4d4f;
     color:white;
@@ -94,7 +75,6 @@ input,select{
     font-size:16px;
 }
 
-/* ปุ่มทั่วไป */
 button{
     width:100%;
     padding:12px;
@@ -155,15 +135,6 @@ button{
 
 <script>
 
-// รายการสินค้า
-const productList = {
-    "สติกเกอร์ 12 ชิ้น": 299,
-    "สติกเกอร์ 28 ชิ้น": 399,
-    "สติกเกอร์ 36 ชิ้น": 499,
-    "สติกเกอร์ 54 ชิ้น": 699,
-    "สติกเกอร์ 108 ชิ้น": 999
-};
-
 // สุ่ม Order ID
 document.getElementById("order").value =
 "ORD"+Math.floor(100000+Math.random()*900000);
@@ -174,22 +145,8 @@ function addRow(){
     let row = document.createElement("div");
     row.className = "row";
 
-    let options = `<option value="">เลือกสินค้า</option>`;
-
-    for(let name in productList){
-        options += `<option value="${name}">${name}</option>`;
-    }
-
-    options += `<option value="custom">อื่นๆ</option>`;
-
     row.innerHTML = `
-    <div class="item-box">
-        <select class="item" onchange="setPrice(this)">
-            ${options}
-        </select>
-        <input class="custom-item" placeholder="ชื่อสินค้า">
-    </div>
-
+    <input class="item" placeholder="ชื่อสินค้า">
     <input class="price" placeholder="ราคา" oninput="calc(this)">
     <input class="qty" value="1" oninput="calc(this)">
     <input class="sum" disabled>
@@ -203,31 +160,6 @@ function addRow(){
 // ลบสินค้า
 function deleteRow(btn){
     btn.closest(".row").remove();
-}
-
-// เลือกสินค้า
-function setPrice(el){
-
-    let row = el.closest(".row");
-    let priceInput = row.querySelector(".price");
-    let customInput = row.querySelector(".custom-item");
-
-    let value = el.value;
-
-    if(value === "custom"){
-        customInput.style.display = "block";
-        customInput.focus();
-        priceInput.value = "";
-        return;
-    }else{
-        customInput.style.display = "none";
-    }
-
-    if(productList[value]){
-        priceInput.value = productList[value];
-    }
-
-    calc(el);
 }
 
 // คำนวณ
@@ -262,11 +194,7 @@ function createBill(){
 
     rows.forEach((row,i)=>{
 
-        let itemSelect = row.querySelector(".item").value;
-        let customItem = row.querySelector(".custom-item").value;
-
-        let item = itemSelect === "custom" ? customItem : itemSelect;
-
+        let item = row.querySelector(".item").value;
         let price = row.querySelector(".price").value;
         let qty = row.querySelector(".qty").value;
         let sum = row.querySelector(".sum").value;
