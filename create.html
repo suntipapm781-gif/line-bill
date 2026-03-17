@@ -38,6 +38,7 @@ input,select{
     border:1px solid #ccc;
 }
 
+/* 🔥 layout หลัก */
 .row{
     display:grid;
     grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
@@ -56,27 +57,30 @@ input,select{
     text-align:center;
 }
 
+/* 🔥 ช่องสินค้า */
 .item-box{
     display:flex;
     gap:6px;
     align-items:center;
 }
 
-.item{flex:1;}
-.custom-item{flex:1;display:none;}
-
-.shirt-box{
-    display:none;
-    flex-direction:column;
-    gap:5px;
+.item{
+    flex:1;
 }
 
+.custom-item{
+    flex:1;
+    display:none;
+}
+
+/* 🔥 ช่องรวม */
 .sum{
     background:#f8f8f8;
     text-align:center;
     font-weight:700;
 }
 
+/* 🔥 ปุ่มลบ */
 .delete-btn{
     background:#ff4d4f;
     color:white;
@@ -90,6 +94,7 @@ input,select{
     font-size:16px;
 }
 
+/* ปุ่มทั่วไป */
 button{
     width:100%;
     padding:12px;
@@ -150,14 +155,13 @@ button{
 
 <script>
 
-// 🔥 เพิ่ม "เสื้อ"
+// รายการสินค้า
 const productList = {
     "สติกเกอร์ 12 ชิ้น": 299,
     "สติกเกอร์ 28 ชิ้น": 399,
     "สติกเกอร์ 36 ชิ้น": 499,
     "สติกเกอร์ 54 ชิ้น": 699,
-    "สติกเกอร์ 108 ชิ้น": 999,
-    "เสื้อ": 0
+    "สติกเกอร์ 108 ชิ้น": 999
 };
 
 // สุ่ม Order ID
@@ -186,24 +190,6 @@ function addRow(){
         <input class="custom-item" placeholder="ชื่อสินค้า">
     </div>
 
-    <div class="shirt-box">
-        <select class="shirt-type">
-            <option value="">ประเภทเสื้อ</option>
-            <option value="พิมพ์ลาย">พิมพ์ลาย</option>
-            <option value="cotton">cotton</option>
-        </select>
-
-        <select class="shirt-size">
-            <option value="">ไซส์</option>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-            <option>2XL</option>
-            <option>3XL</option>
-        </select>
-    </div>
-
     <input class="price" placeholder="ราคา" oninput="calc(this)">
     <input class="qty" value="1" oninput="calc(this)">
     <input class="sum" disabled>
@@ -225,21 +211,9 @@ function setPrice(el){
     let row = el.closest(".row");
     let priceInput = row.querySelector(".price");
     let customInput = row.querySelector(".custom-item");
-    let shirtBox = row.querySelector(".shirt-box");
 
     let value = el.value;
 
-    // เสื้อ
-    if(value === "เสื้อ"){
-        shirtBox.style.display = "flex";
-        customInput.style.display = "none";
-        priceInput.value = "";
-        return;
-    }else{
-        shirtBox.style.display = "none";
-    }
-
-    // custom
     if(value === "custom"){
         customInput.style.display = "block";
         customInput.focus();
@@ -249,7 +223,6 @@ function setPrice(el){
         customInput.style.display = "none";
     }
 
-    // ปกติ
     if(productList[value]){
         priceInput.value = productList[value];
     }
@@ -292,20 +265,7 @@ function createBill(){
         let itemSelect = row.querySelector(".item").value;
         let customItem = row.querySelector(".custom-item").value;
 
-        let shirtType = row.querySelector(".shirt-type")?.value;
-        let shirtSize = row.querySelector(".shirt-size")?.value;
-
-        let item;
-
-        if(itemSelect === "custom"){
-            item = customItem;
-
-        }else if(itemSelect === "เสื้อ"){
-            item = "เสื้อ " + (shirtType || "") + " - " + (shirtSize || "");
-
-        }else{
-            item = itemSelect;
-        }
+        let item = itemSelect === "custom" ? customItem : itemSelect;
 
         let price = row.querySelector(".price").value;
         let qty = row.querySelector(".qty").value;
