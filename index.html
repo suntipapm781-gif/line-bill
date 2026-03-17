@@ -3,23 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Payment</title>
 
 <style>
 body{font-family:sans-serif;background:#f4f6f9;padding:20px;}
-.container{max-width:500px;margin:auto;background:white;padding:20px;border-radius:16px;}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+border-radius:16px;
+padding:20px;
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+.logo{text-align:center;margin-bottom:10px;}
+.logo img{height:120px;}
+
+.title{font-size:22px;font-weight:600;margin-bottom:15px;}
+
+.order-title{font-size:24px;font-weight:700;margin-bottom:10px;}
+.order-text{font-size:18px;margin-bottom:10px;}
+
+table{width:100%;border-collapse:collapse;margin-bottom:15px;}
+th{background:#f1f3f6;}
 th,td{padding:8px;}
 td:nth-child(1){text-align:left;}
 td:nth-child(2){text-align:center;}
 td:nth-child(3){text-align:center;}
 td:nth-child(4){text-align:right;}
-.summary{background:#f1f3f6;padding:15px;border-radius:10px;margin-top:10px;}
+
+.summary{
+background:#f1f3f6;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+}
+
 .row{display:flex;justify-content:space-between;margin-bottom:6px;}
-button{background:#1677ff;color:white;border:none;padding:10px;border-radius:8px;}
+
+.qr{text-align:center;margin:20px 0;}
+.qr img{width:220px;}
+
+.info{
+background:#f1f3f6;
+padding:20px;
+border-radius:12px;
+}
+
+.info-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
+}
+
+.btn{
+background:#1677ff;
+color:white;
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+}
 </style>
 
 <script>
-// 🔥 ถ้าไม่มี parameter → ไปหน้า create
+// redirect ไป create ถ้าไม่มี parameter
 if(!window.location.search){
 window.location.href = "create.html";
 }
@@ -28,17 +78,37 @@ window.location.href = "create.html";
 </head>
 
 <body>
+
 <div class="container">
 
-<h2>Order Detail</h2>
-<div>Order ID: <span id="order"></span></div>
-<div>Customer: <span id="customer"></span></div>
+<div class="logo">
+<img src="logo png.png">
+</div>
 
-<h3>ข้อมูลสินค้า</h3>
-<table width="100%">
+<div class="title">การชำระเงิน</div>
+
+<div class="order-title">Order Detail</div>
+
+<div class="order-text">
+Order ID : <span id="order"></span>
+</div>
+
+<div class="order-text">
+Customer : <span id="customer"></span>
+</div>
+
+<div style="font-weight:600;margin:10px 0;">ข้อมูลสินค้า</div>
+
+<table>
 <thead>
-<tr><th>ชื่อสินค้า</th><th>ราคา</th><th>จำนวน</th><th>รวม</th></tr>
+<tr>
+<th>ชื่อสินค้า</th>
+<th>ราคา</th>
+<th>จำนวน</th>
+<th>รวม</th>
+</tr>
 </thead>
+
 <tbody>
 <tr><td></td><td></td><td></td><td></td></tr>
 <tr><td></td><td></td><td></td><td></td></tr>
@@ -49,13 +119,49 @@ window.location.href = "create.html";
 <div class="summary">
 <div class="row"><span>ยอดรวมสินค้า</span><span id="sub"></span></div>
 <div class="row"><span>ค่าส่ง</span><span id="ship"></span></div>
-<div class="row" style="font-weight:bold;"><span>ยอดรวม</span><span id="final"></span></div>
+<div class="row" style="font-weight:700;"><span>ยอดรวม</span><span id="final"></span></div>
 </div>
 
-<br>
+<div class="qr">
+<p>สแกนเพื่อชำระเงิน</p>
+<img id="qr">
+<br><br>
+<button class="btn" onclick="sendLine()">ส่งเข้า LINE</button>
+</div>
 
-<img id="qr" width="200"><br><br>
-<button onclick="sendLine()">ส่งเข้า LINE</button>
+<div class="info">
+
+<div class="info-row">
+<span>เลขออเดอร์</span>
+<span id="order2"></span>
+</div>
+
+<div class="info-row">
+<span>เลขที่บัญชี</span>
+<span>0508347642</span>
+</div>
+
+<div class="info-row">
+<span>ชื่อบัญชี</span>
+<span>สันติภาพ มีมั่งคั่ง</span>
+</div>
+
+<div class="info-row">
+<span>ธนาคาร</span>
+<span>กสิกร (KPLUS)</span>
+</div>
+
+<div class="info-row">
+<span>ยอดเงิน</span>
+<span id="amount"></span>
+</div>
+
+<div class="info-row">
+<span>วันที่</span>
+<span id="date"></span>
+</div>
+
+</div>
 
 </div>
 
@@ -67,15 +173,18 @@ return Number(n||0).toLocaleString();
 
 const p=new URLSearchParams(location.search);
 
-document.getElementById("order").innerText=p.get("order");
+let order=p.get("order");
+document.getElementById("order").innerText=order;
+document.getElementById("order2").innerText=order;
+
 document.getElementById("customer").innerText=p.get("customer");
 
 let rows=document.querySelectorAll("tbody tr");
 
 ["1","2","3"].forEach((n,i)=>{
-let iN=p.get("i"+n);
-if(iN){
-rows[i].children[0].innerText=iN;
+let name=p.get("i"+n);
+if(name){
+rows[i].children[0].innerText=name;
 rows[i].children[1].innerText=format(p.get("p"+n));
 rows[i].children[2].innerText=p.get("q"+n);
 rows[i].children[3].innerText=format(p.get("s"+n));
@@ -89,13 +198,17 @@ let final=p.get("final");
 document.getElementById("sub").innerText=format(total);
 document.getElementById("ship").innerText=format(shipping);
 document.getElementById("final").innerText=format(final);
+document.getElementById("amount").innerText="฿ "+format(final);
 
 document.getElementById("qr").src="https://promptpay.io/0508347642/"+final+".png";
 
 function sendLine(){
-let url=location.href;
-window.open("https://line.me/R/msg/text/?"+encodeURIComponent(url));
+window.open("https://line.me/R/msg/text/?"+encodeURIComponent(location.href));
 }
+
+// วันที่
+let d=new Date();
+document.getElementById("date").innerText=d.toLocaleDateString("th-TH");
 
 </script>
 
