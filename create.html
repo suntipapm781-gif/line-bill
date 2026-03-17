@@ -36,13 +36,11 @@ input,select{
     padding:10px;
     border-radius:10px;
     border:1px solid #ccc;
-    font-size:14px;
 }
 
-/* 🔥 แก้ layout ไม่ให้เบียด */
 .row{
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.2fr;
+    grid-template-columns:2fr 1fr 1fr 1.2fr 40px;
     gap:10px;
     margin-bottom:10px;
     align-items:start;
@@ -54,18 +52,16 @@ input,select{
     padding:10px;
     border-radius:8px;
     display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.2fr;
+    grid-template-columns:2fr 1fr 1fr 1.2fr 40px;
     text-align:center;
 }
 
-/* 🔥 ช่องรวม ดูชัด ไม่เบียด */
 .sum{
     background:#f8f8f8;
     text-align:center;
     font-weight:700;
 }
 
-/* 🔥 custom item เนียนขึ้น */
 .item-box{
     display:flex;
     flex-direction:column;
@@ -74,6 +70,15 @@ input,select{
 
 .custom-item{
     font-size:13px;
+}
+
+.delete-btn{
+    background:#ff4d4f;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    height:42px;
 }
 
 button{
@@ -85,7 +90,6 @@ button{
     border-radius:10px;
     margin-top:10px;
     cursor:pointer;
-    font-size:15px;
 }
 
 .add-btn{background:#00b894;}
@@ -119,6 +123,7 @@ button{
 <div>ราคา</div>
 <div>จำนวน</div>
 <div>รวม</div>
+<div></div>
 </div>
 
 <div id="items"></div>
@@ -172,11 +177,18 @@ function addRow(){
     </div>
 
     <input class="price" placeholder="ราคา">
-    <input class="qty" placeholder="จำนวน" value="1" oninput="calc(this)">
-    <input class="sum" placeholder="รวม" disabled>
+    <input class="qty" value="1" oninput="calc(this)">
+    <input class="sum" disabled>
+
+    <button class="delete-btn" onclick="deleteRow(this)">✕</button>
     `;
 
     document.getElementById("items").appendChild(row);
+}
+
+// ลบสินค้า
+function deleteRow(btn){
+    btn.closest(".row").remove();
 }
 
 // เลือกสินค้า
@@ -217,7 +229,7 @@ function calc(el){
     row.querySelector(".sum").value = sum;
 }
 
-// เริ่ม 1 แถว
+// เริ่มต้น
 addRow();
 
 // สร้างลิงก์
