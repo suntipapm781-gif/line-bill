@@ -22,35 +22,38 @@ border-radius:12px;
 box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
-h2{margin-bottom:15px;}
-
-.section{
-margin-bottom:15px;
+.logo{
+text-align:center;
+margin-bottom:10px;
 }
+.logo img{
+height:120px;
+}
+
+h2{margin-bottom:10px;}
 
 .label{
 font-weight:600;
-margin-bottom:5px;
+margin:10px 0 5px;
 display:block;
 }
 
 input{
 width:100%;
 padding:10px;
-margin-bottom:10px;
 border-radius:8px;
 border:1px solid #ccc;
+}
+
+.table{
+margin-top:10px;
 }
 
 .row{
 display:grid;
 grid-template-columns:2fr 1fr 1fr 1fr;
-gap:5px;
+gap:8px;
 margin-bottom:8px;
-}
-
-.row input{
-margin:0;
 }
 
 .header{
@@ -58,6 +61,9 @@ font-weight:600;
 background:#f1f3f6;
 padding:8px;
 border-radius:6px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr;
+gap:8px;
 text-align:center;
 }
 
@@ -70,6 +76,12 @@ border:none;
 border-radius:8px;
 font-size:16px;
 cursor:pointer;
+margin-top:10px;
+}
+
+.add-btn{
+background:#00b894;
+margin-top:5px;
 }
 
 .result{
@@ -84,51 +96,35 @@ word-break:break-all;
 
 <div class="container">
 
+<div class="logo">
+<img src="logo png.png">
+</div>
+
 <h2>สร้างบิล</h2>
 
-<div class="section">
 <label class="label">Order ID</label>
 <input id="order">
-</div>
 
-<div class="section">
-<label class="label">Customer</label>
+<label class="label">ชื่อลูกค้า</label>
 <input id="customer">
+
+<div class="table">
+
+<div class="header">
+<div>ชื่อสินค้า</div>
+<div>ราคา</div>
+<div>จำนวน</div>
+<div>รวม</div>
 </div>
 
-<div class="section">
-<div class="header">ชื่อสินค้า | ราคา | จำนวน | รวม</div>
+<div id="items"></div>
 
-<!-- แถว 1 -->
-<div class="row">
-<input id="item1" placeholder="1. ชื่อสินค้า">
-<input id="price1" placeholder="ราคา">
-<input id="qty1" placeholder="จำนวน">
-<input placeholder="รวม" disabled>
-</div>
-
-<!-- แถว 2 -->
-<div class="row">
-<input id="item2" placeholder="2. ชื่อสินค้า">
-<input id="price2" placeholder="ราคา">
-<input id="qty2" placeholder="จำนวน">
-<input placeholder="รวม" disabled>
-</div>
-
-<!-- แถว 3 -->
-<div class="row">
-<input id="item3" placeholder="3. ชื่อสินค้า">
-<input id="price3" placeholder="ราคา">
-<input id="qty3" placeholder="จำนวน">
-<input placeholder="รวม" disabled>
-</div>
+<button class="add-btn" onclick="addRow()">+ เพิ่มสินค้า</button>
 
 </div>
 
-<div class="section">
 <label class="label">ค่าส่ง</label>
-<input id="shipping">
-</div>
+<input id="shipping" value="0">
 
 <button onclick="createBill()">สร้างลิงก์บิล</button>
 
@@ -143,47 +139,63 @@ return "ORD"+Math.floor(100000+Math.random()*900000);
 }
 document.getElementById("order").value = generateOrderID();
 
+// เพิ่มสินค้า
+function addRow(){
+let div=document.createElement("div");
+div.className="row";
+
+div.innerHTML=`
+<input class="item" placeholder="ชื่อสินค้า">
+<input class="price" placeholder="ราคา" oninput="calc(this)">
+<input class="qty" placeholder="จำนวน" oninput="calc(this)">
+<input class="sum" placeholder="รวม" disabled>
+`;
+
+document.getElementById("items").appendChild(div);
+}
+
+// คำนวณรวม
+function calc(el){
+let row=el.parentElement;
+let price=row.querySelector(".price").value;
+let qty=row.querySelector(".qty").value;
+let sum=(price||0)*(qty||0);
+row.querySelector(".sum").value=sum;
+}
+
+// เริ่มต้น 1 แถว
+addRow();
+
 function createBill(){
 
-let order = document.getElementById("order").value
-let customer = document.getElementById("customer").value
+let order=document.getElementById("order").value;
+let customer=document.getElementById("customer").value;
+let shipping=document.getElementById("shipping").value;
 
-let item1 = document.getElementById("item1").value
-let price1 = document.getElementById("price1").value
-let qty1 = document.getElementById("qty1").value
+let items=document.querySelectorAll(".row");
 
-let item2 = document.getElementById("item2").value
-let price2 = document.getElementById("price2").value
-let qty2 = document.getElementById("qty2").value
+let url="index.html?order="+order+"&customer="+customer;
 
-let item3 = document.getElementById("item3").value
-let price3 = document.getElementById("price3").value
-let qty3 = document.getElementById("qty3").value
+let total=0;
 
-let shipping = document.getElementById("shipping").value
+items.forEach((row,i)=>{
+let item=row.querySelector(".item").value;
+let price=row.querySelector(".price").value;
+let qty=row.querySelector(".qty").value;
+let sum=row.querySelector(".sum").value;
 
-let s1 = (price1||0)*(qty1||0)
-let s2 = (price2||0)*(qty2||0)
-let s3 = (price3||0)*(qty3||0)
+if(item){
+url+=`&i${i+1}=${item}&p${i+1}=${price}&q${i+1}=${qty}&s${i+1}=${sum}`;
+total+=Number(sum||0);
+}
+});
 
-let total = Number(s1)+Number(s2)+Number(s3)
-let final = total + Number(shipping||0)
+let final=total+Number(shipping||0);
 
-let url = "index.html"+
-"?order="+order+
-"&customer="+customer+
+url+=`&total=${total}&shipping=${shipping}&final=${final}`;
 
-"&i1="+item1+"&p1="+price1+"&q1="+qty1+"&s1="+s1+
-"&i2="+item2+"&p2="+price2+"&q2="+qty2+"&s2="+s2+
-"&i3="+item3+"&p3="+price3+"&q3="+qty3+"&s3="+s3+
-
-"&total="+total+
-"&shipping="+shipping+
-"&final="+final
-
-document.getElementById("result").innerHTML =
-"<a href='"+url+"' target='_blank'>"+url+"</a>"
-
+document.getElementById("result").innerHTML=
+"<a href='"+url+"' target='_blank'>"+url+"</a>";
 }
 
 </script>
