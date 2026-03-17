@@ -124,7 +124,7 @@ word-break:break-all;
 </div>
 
 <label class="label">ค่าส่ง</label>
-<input id="shipping" value="0">
+<input id="shipping" placeholder="ใส่ตัวเลข หรือ พิมพ์ว่า ฟรี">
 
 <button onclick="createBill()">สร้างลิงก์บิล</button>
 
@@ -159,8 +159,9 @@ function calc(el){
 let row=el.parentElement;
 let price=row.querySelector(".price").value;
 let qty=row.querySelector(".qty").value;
-let sum=(price||0)*(qty||0);
-row.querySelector(".sum").value=sum;
+
+let sum = (Number(price)||0) * (Number(qty)||0);
+row.querySelector(".sum").value = sum;
 }
 
 // เริ่มต้น 1 แถว
@@ -190,12 +191,20 @@ total+=Number(sum||0);
 }
 });
 
-let final=total+Number(shipping||0);
+// ✅ รองรับ "ฟรี"
+let shippingValue = Number(shipping);
+if(isNaN(shippingValue)){
+shippingValue = 0;
+}
 
-url+=`&total=${total}&shipping=${shipping}&final=${final}`;
+let final = total + shippingValue;
 
-document.getElementById("result").innerHTML=
+// ส่งทั้งค่า text + ค่าเลข
+url+=`&total=${total}&shipping=${shipping}&shippingValue=${shippingValue}&final=${final}`;
+
+document.getElementById("result").innerHTML =
 "<a href='"+url+"' target='_blank'>"+url+"</a>";
+
 }
 
 </script>
