@@ -3,325 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Payment</title>
 
 <style>
-body{
-font-family:sans-serif;
-background:#f4f6f9;
-padding:20px;
-}
-
-.container{
-max-width:500px;
-margin:auto;
-background:white;
-border-radius:16px;
-padding:20px;
-box-shadow:0 4px 20px rgba(0,0,0,0.08);
-}
-
-.logo{
-text-align:center;
-margin-bottom:10px;
-}
-
-.logo img{
-height:120px;
-}
-
-.title{
-font-size:22px;
-font-weight:600;
-margin-bottom:15px;
-}
-
-.order-box{
-margin-bottom:20px;
-}
-
-.order-title{
-font-size:24px;
-font-weight:700;
-margin-bottom:10px;
-}
-
-.order-text{
-font-size:18px;
-margin-bottom:10px;
-}
-
-.total{
-font-size:22px;
-font-weight:700;
-margin-top:10px;
-}
-
-.qr{
-text-align:center;
-margin:20px 0;
-}
-
-.qr img{
-width:220px;
-}
-
-.qr-buttons{
-margin-top:10px;
-}
-
-.info{
-background:#f1f3f6;
-padding:20px;
-border-radius:12px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:12px;
-}
-
-.label{
-color:#666;
-}
-
-.value{
-font-weight:600;
-}
-
-.amount{
-color:#1677ff;
-font-weight:700;
-}
-
-.btn{
-margin-left:8px;
-padding:6px 10px;
-border:none;
-background:#1677ff;
-color:white;
-border-radius:6px;
-cursor:pointer;
-font-size:12px;
-}
-
-th, td{
-padding:8px;
-}
-
-th{
-background:#f1f3f6;
-}
-
-td:nth-child(1){ text-align:left; }
-td:nth-child(2){ text-align:center; }
-td:nth-child(3){ text-align:center; }
-td:nth-child(4){ text-align:right; }
-
+body{font-family:sans-serif;background:#f4f6f9;padding:20px;}
+.container{max-width:500px;margin:auto;background:white;padding:20px;border-radius:16px;}
+th,td{padding:8px;}
+td:nth-child(1){text-align:left;}
+td:nth-child(2){text-align:center;}
+td:nth-child(3){text-align:center;}
+td:nth-child(4){text-align:right;}
+.summary{background:#f1f3f6;padding:15px;border-radius:10px;margin-top:10px;}
+.row{display:flex;justify-content:space-between;margin-bottom:6px;}
+button{background:#1677ff;color:white;border:none;padding:10px;border-radius:8px;}
 </style>
-
 </head>
 
 <body>
-
 <div class="container">
 
-<div class="logo">
-<img src="logo png.png">
-</div>
+<h2>Order Detail</h2>
+<div>Order ID: <span id="order"></span></div>
+<div>Customer: <span id="customer"></span></div>
 
-<div class="title">การชำระเงิน</div>
+<h3>ข้อมูลสินค้า</h3>
+<table width="100%">
+<thead>
+<tr><th>ชื่อสินค้า</th><th>ราคา</th><th>จำนวน</th><th>รวม</th></tr>
+</thead>
+<tbody>
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
 
-<div class="order-box">
-
-<div class="order-title">Order Detail</div>
-
-<div class="order-text">
-Order ID : <span class="order-id">-</span>
-</div>
-
-<div class="order-text">
-Customer : <span class="customer">-</span>
+<div class="summary">
+<div class="row"><span>ยอดรวมสินค้า</span><span id="sub"></span></div>
+<div class="row"><span>ค่าส่ง</span><span id="ship"></span></div>
+<div class="row" style="font-weight:bold;"><span>ยอดรวม</span><span id="final"></span></div>
 </div>
 
 <br>
 
-<div style="font-weight:600; margin-bottom:10px;">ข้อมูลสินค้า</div>
-
-<table style="width:100%; border-collapse:collapse; margin-bottom:15px;">
-<thead>
-<tr>
-<th>ชื่อสินค้า</th>
-<th>ราคาต่อหน่วย</th>
-<th>จำนวน</th>
-<th>รวม</th>
-</tr>
-</thead>
-
-<tbody>
-<tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-<tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>
-</tbody>
-</table>
-
-<div class="total">Total : 0 บาท</div>
-
-</div>
-
-<div class="qr">
-<p>สแกนเพื่อชำระเงิน</p>
-<img id="qrImage" src="https://promptpay.io/0508347642/0.png">
-<div class="qr-buttons">
-<button class="btn" onclick="saveQR()">บันทึก QR</button>
-</div>
-</div>
-
-<div class="info">
-
-<div class="row">
-<div class="label">เลขออเดอร์</div>
-<div class="value order-number">-</div>
-</div>
-
-<div class="row">
-<div class="label">เลขที่บัญชี</div>
-<div class="value">
-<span id="accountNumber">0508347642</span>
-<button class="btn" onclick="copyAccount()">คัดลอก</button>
-</div>
-</div>
-
-<div class="row">
-<div class="label">ชื่อบัญชี</div>
-<div class="value">สันติภาพ มีมั่งคั่ง</div>
-</div>
-
-<div class="row">
-<div class="label">ธนาคาร</div>
-<div class="value">กสิกร (KPLUS)</div>
-</div>
-
-<div class="row">
-<div class="label">ยอดเงิน</div>
-<div class="amount">฿ 0.00</div>
-</div>
-
-<div class="row">
-<div class="label">วันที่</div>
-<div class="value date"></div>
-</div>
-
-</div>
+<img id="qr" width="200"><br><br>
+<button onclick="sendLine()">ส่งเข้า LINE</button>
 
 </div>
 
 <script>
 
-const params = new URLSearchParams(window.location.search);
-
-let order = params.get("order");
-const customer = params.get("customer");
-
-const i1 = params.get("i1");
-const p1 = params.get("p1");
-const q1 = params.get("q1");
-const s1 = params.get("s1");
-
-const i2 = params.get("i2");
-const p2 = params.get("p2");
-const q2 = params.get("q2");
-const s2 = params.get("s2");
-
-const i3 = params.get("i3");
-const p3 = params.get("p3");
-const q3 = params.get("q3");
-const s3 = params.get("s3");
-
-const total = params.get("total");
-
-// fallback order
-if(!order){
-order = "ORD"+Math.floor(100000+Math.random()*900000);
+function format(n){
+return Number(n||0).toLocaleString();
 }
 
-document.querySelector(".order-id").innerText = order;
-document.querySelector(".order-number").innerText = order;
+const p=new URLSearchParams(location.search);
 
-if(customer){
-document.querySelector(".customer").innerText = customer;
+document.getElementById("order").innerText=p.get("order");
+document.getElementById("customer").innerText=p.get("customer");
+
+let rows=document.querySelectorAll("tbody tr");
+
+["1","2","3"].forEach((n,i)=>{
+let iN=p.get("i"+n);
+if(iN){
+rows[i].children[0].innerText=iN;
+rows[i].children[1].innerText=format(p.get("p"+n));
+rows[i].children[2].innerText=p.get("q"+n);
+rows[i].children[3].innerText=format(p.get("s"+n));
 }
+});
 
-// ใส่ข้อมูลลงตาราง
-const rows = document.querySelectorAll("tbody tr");
+let total=p.get("total");
+let shipping=p.get("shipping");
+let final=p.get("final");
 
-if(i1){
-rows[0].children[0].innerText = i1;
-rows[0].children[1].innerText = p1;
-rows[0].children[2].innerText = q1;
-rows[0].children[3].innerText = s1;
-}
+document.getElementById("sub").innerText=format(total);
+document.getElementById("ship").innerText=format(shipping);
+document.getElementById("final").innerText=format(final);
 
-if(i2){
-rows[1].children[0].innerText = i2;
-rows[1].children[1].innerText = p2;
-rows[1].children[2].innerText = q2;
-rows[1].children[3].innerText = s2;
-}
+document.getElementById("qr").src="https://promptpay.io/0508347642/"+final+".png";
 
-if(i3){
-rows[2].children[0].innerText = i3;
-rows[2].children[1].innerText = p3;
-rows[2].children[2].innerText = q3;
-rows[2].children[3].innerText = s3;
-}
-
-// total + QR
-if(total){
-document.querySelector(".total").innerText = "Total : "+total+" บาท";
-document.querySelector(".amount").innerText = "฿ "+total+".00";
-
-document.getElementById("qrImage").src =
-"https://promptpay.io/0508347642/"+total+".png";
-}
-
-// วันที่
-const today = new Date();
-
-const options = {
-year:"numeric",
-month:"short",
-day:"numeric"
-};
-
-let fullDate = today.toLocaleDateString("th-TH",options);
-
-let d = String(today.getDate()).padStart(2,"0");
-let m = String(today.getMonth()+1).padStart(2,"0");
-let y = String(today.getFullYear()).slice(-2);
-
-let shortDate = d+m+y;
-
-document.querySelector(".date").innerText =
-fullDate+" ("+shortDate+")";
-
-// copy
-function copyAccount(){
-const text = document.getElementById("accountNumber").innerText;
-navigator.clipboard.writeText(text);
-alert("คัดลอกเลขบัญชีแล้ว");
-}
-
-// save QR
-function saveQR(){
-const img = document.getElementById("qrImage").src;
-const a = document.createElement("a");
-a.href = img;
-a.download = "promptpay-qr.png";
-a.click();
+function sendLine(){
+let url=location.href;
+window.open("https://line.me/R/msg/text/?"+encodeURIComponent(url));
 }
 
 </script>
