@@ -166,9 +166,9 @@ function setPrice(el){
 
     let value = el.value;
 
-    // เลือก "อื่นๆ"
     if(value === "custom"){
         customInput.style.display = "block";
+        customInput.focus(); // 🔥 focus อัตโนมัติ
         priceInput.value = "";
         return;
     }else{
@@ -207,7 +207,8 @@ function createBill(){
 
     let rows = document.querySelectorAll(".row");
 
-    let url = "index.html?order="+order+"&customer="+customer;
+    let url = "index.html?order=" + encodeURIComponent(order)
+            + "&customer=" + encodeURIComponent(customer);
 
     let total = 0;
 
@@ -223,13 +224,17 @@ function createBill(){
         let sum = row.querySelector(".sum").value;
 
         if(item){
-            url += `&i${i+1}=${item}&p${i+1}=${price}&q${i+1}=${qty}&s${i+1}=${sum}`;
+            url += `&i${i+1}=${encodeURIComponent(item)}`
+                 + `&p${i+1}=${price}`
+                 + `&q${i+1}=${qty}`
+                 + `&s${i+1}=${sum}`;
+
             total += Number(sum||0);
         }
 
     });
 
-    // ค่าส่ง
+    // ค่าส่ง (รองรับ "ฟรี")
     let shippingValue = Number(shipping);
     if(isNaN(shippingValue)){
         shippingValue = 0;
@@ -237,7 +242,10 @@ function createBill(){
 
     let final = total + shippingValue;
 
-    url += `&total=${total}&shipping=${shipping}&shippingValue=${shippingValue}&final=${final}`;
+    url += `&total=${total}`
+         + `&shipping=${encodeURIComponent(shipping)}`
+         + `&shippingValue=${shippingValue}`
+         + `&final=${final}`;
 
     document.getElementById("result").innerHTML =
     `<a href="${url}" target="_blank">${url}</a>`;
