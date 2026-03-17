@@ -3,38 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>สร้างบิล</title>
 
 <style>
-body{font-family:sans-serif;background:#f4f6f9;padding:20px;}
-.container{max-width:500px;margin:auto;background:white;padding:20px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08);}
-input{width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;}
-button{width:100%;padding:12px;background:#1677ff;color:white;border:none;border-radius:8px;}
-.result{margin-top:20px;word-break:break-all;}
+body{
+font-family:sans-serif;
+background:#f4f6f9;
+padding:20px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
+}
+
+h2{margin-bottom:15px;}
+
+.section{
+margin-bottom:15px;
+}
+
+.label{
+font-weight:600;
+margin-bottom:5px;
+display:block;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.row{
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr;
+gap:5px;
+margin-bottom:8px;
+}
+
+.row input{
+margin:0;
+}
+
+.header{
+font-weight:600;
+background:#f1f3f6;
+padding:8px;
+border-radius:6px;
+text-align:center;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#1677ff;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+}
+
+.result{
+margin-top:15px;
+word-break:break-all;
+}
 </style>
+
 </head>
 
 <body>
+
 <div class="container">
 
 <h2>สร้างบิล</h2>
 
+<div class="section">
+<label class="label">Order ID</label>
 <input id="order">
-<input id="customer" placeholder="ชื่อลูกค้า">
+</div>
 
-<input id="item1" placeholder="สินค้า 1">
-<input id="price1" placeholder="ราคา 1">
-<input id="qty1" placeholder="จำนวน 1">
+<div class="section">
+<label class="label">Customer</label>
+<input id="customer">
+</div>
 
-<input id="item2" placeholder="สินค้า 2">
-<input id="price2" placeholder="ราคา 2">
-<input id="qty2" placeholder="จำนวน 2">
+<div class="section">
+<div class="header">ชื่อสินค้า | ราคา | จำนวน | รวม</div>
 
-<input id="item3" placeholder="สินค้า 3">
-<input id="price3" placeholder="ราคา 3">
-<input id="qty3" placeholder="จำนวน 3">
+<!-- แถว 1 -->
+<div class="row">
+<input id="item1" placeholder="1. ชื่อสินค้า">
+<input id="price1" placeholder="ราคา">
+<input id="qty1" placeholder="จำนวน">
+<input placeholder="รวม" disabled>
+</div>
 
-<input id="shipping" placeholder="ค่าส่ง">
+<!-- แถว 2 -->
+<div class="row">
+<input id="item2" placeholder="2. ชื่อสินค้า">
+<input id="price2" placeholder="ราคา">
+<input id="qty2" placeholder="จำนวน">
+<input placeholder="รวม" disabled>
+</div>
+
+<!-- แถว 3 -->
+<div class="row">
+<input id="item3" placeholder="3. ชื่อสินค้า">
+<input id="price3" placeholder="ราคา">
+<input id="qty3" placeholder="จำนวน">
+<input placeholder="รวม" disabled>
+</div>
+
+</div>
+
+<div class="section">
+<label class="label">ค่าส่ง</label>
+<input id="shipping">
+</div>
 
 <button onclick="createBill()">สร้างลิงก์บิล</button>
 
@@ -91,6 +185,8 @@ document.getElementById("result").innerHTML =
 "<a href='"+url+"' target='_blank'>"+url+"</a>"
 
 }
+
 </script>
+
 </body>
 </html>
