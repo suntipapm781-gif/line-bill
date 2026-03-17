@@ -62,14 +62,16 @@ margin-bottom:10px;
 background:#1677ff;
 color:white;
 border:none;
-padding:10px;
-border-radius:8px;
+padding:6px 10px;
+border-radius:6px;
 cursor:pointer;
+font-size:12px;
+margin-left:8px;
 }
 </style>
 
 <script>
-// redirect ไป create ถ้าไม่มี parameter
+// redirect ถ้าไม่มี param
 if(!window.location.search){
 window.location.href = "create.html";
 }
@@ -126,7 +128,7 @@ Customer : <span id="customer"></span>
 <p>สแกนเพื่อชำระเงิน</p>
 <img id="qr">
 <br><br>
-<button class="btn" onclick="sendLine()">ส่งเข้า LINE</button>
+<button class="btn" onclick="saveQR()">บันทึก QR</button>
 </div>
 
 <div class="info">
@@ -138,7 +140,10 @@ Customer : <span id="customer"></span>
 
 <div class="info-row">
 <span>เลขที่บัญชี</span>
-<span>0508347642</span>
+<span>
+<span id="accountNumber">0508347642</span>
+<button class="btn" onclick="copyAccount()">คัดลอก</button>
+</span>
 </div>
 
 <div class="info-row">
@@ -202,8 +207,20 @@ document.getElementById("amount").innerText="฿ "+format(final);
 
 document.getElementById("qr").src="https://promptpay.io/0508347642/"+final+".png";
 
-function sendLine(){
-window.open("https://line.me/R/msg/text/?"+encodeURIComponent(location.href));
+// 📌 copy account
+function copyAccount(){
+let text=document.getElementById("accountNumber").innerText;
+navigator.clipboard.writeText(text);
+alert("คัดลอกเลขบัญชีแล้ว");
+}
+
+// 📌 save QR
+function saveQR(){
+let img=document.getElementById("qr").src;
+let a=document.createElement("a");
+a.href=img;
+a.download="promptpay-qr.png";
+a.click();
 }
 
 // วันที่
