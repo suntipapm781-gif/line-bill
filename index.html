@@ -103,6 +103,7 @@ margin-bottom:6px;
 background:#f1f3f6;
 padding:20px;
 border-radius:12px;
+margin-top:20px;
 }
 
 .info-row{
@@ -120,6 +121,11 @@ border-radius:6px;
 cursor:pointer;
 font-size:12px;
 margin-left:8px;
+}
+
+.address{
+margin-top:15px;
+white-space:pre-line;
 }
 
 </style>
@@ -220,6 +226,11 @@ Customer : <span id="customer"></span>
 <span id="date"></span>
 </div>
 
+<div class="address">
+<b>ที่อยู่จัดส่ง</b>
+<div id="address"></div>
+</div>
+
 </div>
 
 </div>
@@ -236,6 +247,7 @@ let order=p.get("order");
 let customer=p.get("customer");
 let status=p.get("status");
 let deposit=p.get("deposit");
+let address=p.get("address");
 
 document.getElementById("order").innerText=order;
 document.getElementById("order2").innerText=order;
@@ -275,6 +287,7 @@ tbody.appendChild(tr);
 
 total+=Number(sum||0);
 i++;
+
 }
 
 let shipping=p.get("shipping");
@@ -304,6 +317,10 @@ document.getElementById("depositRow").style.display="block";
 document.getElementById("deposit").innerText=format(dep);
 document.getElementById("balance").innerText=format(balance);
 
+}
+
+if(address){
+document.getElementById("address").innerText=decodeURIComponent(address);
 }
 
 function copyAccount(){
