@@ -113,6 +113,9 @@ word-break:break-all;
 <option value="โอนครบ">โอนครบ</option>
 </select>
 
+<label class="label">ยอดมัดจำ</label>
+<input id="deposit" placeholder="กรอกเฉพาะกรณีมัดจำ">
+
 <label class="label">Order ID</label>
 <input id="order">
 
@@ -185,12 +188,14 @@ let order=document.getElementById("order").value;
 let customer=document.getElementById("customer").value;
 let shipping=document.getElementById("shipping").value;
 let status=document.getElementById("status").value;
+let deposit=document.getElementById("deposit").value;
 
 let rows=document.querySelectorAll(".row");
 
 let url="index.html?order="+encodeURIComponent(order)
 +"&customer="+encodeURIComponent(customer)
-+"&status="+encodeURIComponent(status);
++"&status="+encodeURIComponent(status)
++"&deposit="+encodeURIComponent(deposit);
 
 let total=0;
 
