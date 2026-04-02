@@ -7,6 +7,7 @@
 <title>Payment</title>
 
 <style>
+
 body{
 font-family:sans-serif;
 background:#f4f6f9;
@@ -22,24 +23,40 @@ padding:20px;
 box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
-.logo{
-text-align:center;
-margin-bottom:10px;
-}
-.logo img{
-height:120px;
+.logo{text-align:center;margin-bottom:10px;}
+.logo img{height:120px;}
+
+.header-payment{
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .title{
 font-size:22px;
 font-weight:600;
-margin-bottom:15px;
+}
+
+.status{
+padding:6px 12px;
+border-radius:8px;
+font-weight:600;
+}
+
+.status-red{
+border:2px solid red;
+color:red;
+}
+
+.status-green{
+border:2px solid green;
+color:green;
 }
 
 .order-title{
 font-size:24px;
 font-weight:700;
-margin-bottom:10px;
+margin:15px 0 10px;
 }
 
 .order-text{
@@ -79,14 +96,8 @@ justify-content:space-between;
 margin-bottom:6px;
 }
 
-.qr{
-text-align:center;
-margin:20px 0;
-}
-
-.qr img{
-width:220px;
-}
+.qr{text-align:center;margin:20px 0;}
+.qr img{width:220px;}
 
 .info{
 background:#f1f3f6;
@@ -110,10 +121,10 @@ cursor:pointer;
 font-size:12px;
 margin-left:8px;
 }
+
 </style>
 
 <script>
-// ถ้าไม่มี parameter → กลับหน้า create
 if(!window.location.search){
 window.location.href="create.html";
 }
@@ -129,7 +140,10 @@ window.location.href="create.html";
 <img src="logo png.png">
 </div>
 
+<div class="header-payment">
 <div class="title">การชำระเงิน</div>
+<div id="statusBox" class="status"></div>
+</div>
 
 <div class="order-title">Order Detail</div>
 
@@ -154,7 +168,6 @@ Customer : <span id="customer"></span>
 </thead>
 
 <tbody id="tbody"></tbody>
-
 </table>
 
 <div class="summary">
@@ -217,15 +230,23 @@ return Number(n||0).toLocaleString();
 
 const p=new URLSearchParams(location.search);
 
-// ข้อมูลหลัก
 let order=p.get("order");
 let customer=p.get("customer");
+let status=p.get("status");
 
 document.getElementById("order").innerText=order;
 document.getElementById("order2").innerText=order;
 document.getElementById("customer").innerText=customer;
 
-// 🔥 สร้างรายการสินค้าแบบไม่จำกัด
+let statusBox=document.getElementById("statusBox");
+statusBox.innerText=status;
+
+if(status==="มัดจำ"){
+statusBox.classList.add("status-red");
+}else{
+statusBox.classList.add("status-green");
+}
+
 let tbody=document.getElementById("tbody");
 
 let i=1;
@@ -253,7 +274,6 @@ total+=Number(sum||0);
 i++;
 }
 
-// ค่าส่ง (รองรับ "ฟรี")
 let shipping=p.get("shipping");
 let shippingValue=p.get("shippingValue");
 
@@ -261,27 +281,22 @@ if(!shippingValue || isNaN(shippingValue)){
 shippingValue=0;
 }
 
-// รวม
-let final = total + Number(shippingValue||0);
+let final=total+Number(shippingValue||0);
 
-// แสดงผล
 document.getElementById("sub").innerText=format(total);
-document.getElementById("ship").innerText = shipping || 0;
+document.getElementById("ship").innerText=shipping||0;
 document.getElementById("final").innerText=format(final);
 document.getElementById("amount").innerText="฿ "+format(final);
 
-// QR
 document.getElementById("qr").src=
 "https://promptpay.io/0508347642/"+final+".png";
 
-// คัดลอกบัญชี
 function copyAccount(){
 let text=document.getElementById("accountNumber").innerText;
 navigator.clipboard.writeText(text);
 alert("คัดลอกเลขบัญชีแล้ว");
 }
 
-// บันทึก QR
 function saveQR(){
 let img=document.getElementById("qr").src;
 let a=document.createElement("a");
@@ -290,7 +305,6 @@ a.download="promptpay-qr.png";
 a.click();
 }
 
-// วันที่
 let d=new Date();
 document.getElementById("date").innerText=d.toLocaleDateString("th-TH");
 
