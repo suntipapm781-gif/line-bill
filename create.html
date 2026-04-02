@@ -7,6 +7,7 @@
 <title>สร้างบิล</title>
 
 <style>
+
 body{
 font-family:sans-serif;
 background:#f4f6f9;
@@ -31,11 +32,16 @@ margin:10px 0 5px;
 display:block;
 }
 
-input,select{
+input,select,textarea{
 width:100%;
 padding:10px;
 border-radius:10px;
 border:1px solid #ccc;
+}
+
+textarea{
+min-height:80px;
+resize:vertical;
 }
 
 .row{
@@ -92,6 +98,7 @@ cursor:pointer;
 margin-top:15px;
 word-break:break-all;
 }
+
 </style>
 
 </head>
@@ -137,6 +144,9 @@ word-break:break-all;
 <label class="label">ค่าส่ง</label>
 <input id="shipping" placeholder="เช่น 50 หรือ ฟรี">
 
+<label class="label">ที่อยู่จัดส่ง</label>
+<textarea id="address" placeholder="กรอกที่อยู่จัดส่ง"></textarea>
+
 <button onclick="createBill()">สร้างลิงก์บิล</button>
 
 <div id="result" class="result"></div>
@@ -162,6 +172,7 @@ row.innerHTML=`
 `;
 
 document.getElementById("items").appendChild(row);
+
 }
 
 function deleteRow(btn){
@@ -178,6 +189,7 @@ let qty=row.querySelector(".qty").value;
 let sum=(Number(price)||0)*(Number(qty)||0);
 
 row.querySelector(".sum").value=sum;
+
 }
 
 addRow();
@@ -189,13 +201,15 @@ let customer=document.getElementById("customer").value;
 let shipping=document.getElementById("shipping").value;
 let status=document.getElementById("status").value;
 let deposit=document.getElementById("deposit").value;
+let address=document.getElementById("address").value;
 
 let rows=document.querySelectorAll(".row");
 
 let url="index.html?order="+encodeURIComponent(order)
 +"&customer="+encodeURIComponent(customer)
 +"&status="+encodeURIComponent(status)
-+"&deposit="+encodeURIComponent(deposit);
++"&deposit="+encodeURIComponent(deposit)
++"&address="+encodeURIComponent(address);
 
 let total=0;
 
@@ -231,6 +245,7 @@ url+=`&total=${total}`
 
 document.getElementById("result").innerHTML=
 `<a href="${url}" target="_blank">${url}</a>`;
+
 }
 
 </script>
