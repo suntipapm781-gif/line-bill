@@ -124,12 +124,6 @@ margin-left:8px;
 
 </style>
 
-<script>
-if(!window.location.search){
-window.location.href="create.html";
-}
-</script>
-
 </head>
 
 <body>
@@ -168,12 +162,20 @@ Customer : <span id="customer"></span>
 </thead>
 
 <tbody id="tbody"></tbody>
+
 </table>
 
 <div class="summary">
+
 <div class="row"><span>ยอดรวมสินค้า</span><span id="sub"></span></div>
 <div class="row"><span>ค่าส่ง</span><span id="ship"></span></div>
 <div class="row" style="font-weight:700;"><span>ยอดรวม</span><span id="final"></span></div>
+
+<div id="depositRow" style="display:none;">
+<div class="row"><span>มัดจำ</span><span id="deposit"></span></div>
+<div class="row"><span>ยอดค้างจ่าย</span><span id="balance"></span></div>
+</div>
+
 </div>
 
 <div class="qr">
@@ -233,6 +235,7 @@ const p=new URLSearchParams(location.search);
 let order=p.get("order");
 let customer=p.get("customer");
 let status=p.get("status");
+let deposit=p.get("deposit");
 
 document.getElementById("order").innerText=order;
 document.getElementById("order2").innerText=order;
@@ -290,6 +293,18 @@ document.getElementById("amount").innerText="฿ "+format(final);
 
 document.getElementById("qr").src=
 "https://promptpay.io/0508347642/"+final+".png";
+
+if(status==="มัดจำ" && deposit){
+
+let dep=Number(deposit);
+let balance=final-dep;
+
+document.getElementById("depositRow").style.display="block";
+
+document.getElementById("deposit").innerText=format(dep);
+document.getElementById("balance").innerText=format(balance);
+
+}
 
 function copyAccount(){
 let text=document.getElementById("accountNumber").innerText;
