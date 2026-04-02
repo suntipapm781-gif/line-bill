@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -8,89 +8,89 @@
 
 <style>
 body{
-    font-family:sans-serif;
-    background:#f4f6f9;
-    padding:20px;
+font-family:sans-serif;
+background:#f4f6f9;
+padding:20px;
 }
 
 .container{
-    max-width:520px;
-    margin:auto;
-    background:white;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+max-width:520px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 4px 20px rgba(0,0,0,0.08);
 }
 
 .logo{text-align:center;margin-bottom:10px;}
 .logo img{height:120px;}
 
 .label{
-    font-weight:600;
-    margin:10px 0 5px;
-    display:block;
+font-weight:600;
+margin:10px 0 5px;
+display:block;
 }
 
-input{
-    width:100%;
-    padding:10px;
-    border-radius:10px;
-    border:1px solid #ccc;
+input,select{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:1px solid #ccc;
 }
 
 .row{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
-    gap:10px;
-    margin-bottom:10px;
-    align-items:center;
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
+gap:10px;
+margin-bottom:10px;
+align-items:center;
 }
 
 .header{
-    font-weight:600;
-    background:#f1f3f6;
-    padding:10px;
-    border-radius:8px;
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
-    text-align:center;
+font-weight:600;
+background:#f1f3f6;
+padding:10px;
+border-radius:8px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1.2fr 45px;
+text-align:center;
 }
 
 .sum{
-    background:#f8f8f8;
-    text-align:center;
-    font-weight:700;
+background:#f8f8f8;
+text-align:center;
+font-weight:700;
 }
 
 .delete-btn{
-    background:#ff4d4f;
-    color:white;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    height:42px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
+background:#ff4d4f;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    background:#1677ff;
-    color:white;
-    border:none;
-    border-radius:10px;
-    margin-top:10px;
-    cursor:pointer;
+width:100%;
+padding:12px;
+background:#1677ff;
+color:white;
+border:none;
+border-radius:10px;
+margin-top:10px;
+cursor:pointer;
 }
 
 .add-btn{background:#00b894;}
 
 .result{
-    margin-top:15px;
-    word-break:break-all;
+margin-top:15px;
+word-break:break-all;
 }
 </style>
 
@@ -105,6 +105,13 @@ button{
 </div>
 
 <h2>สร้างบิล</h2>
+
+<label class="label">สถานะ</label>
+<select id="status">
+<option value="มัดจำ">มัดจำ</option>
+<option value="โอนเต็ม">โอนเต็ม</option>
+<option value="โอนครบ">โอนครบ</option>
+</select>
 
 <label class="label">Order ID</label>
 <input id="order">
@@ -135,93 +142,90 @@ button{
 
 <script>
 
-// สุ่ม Order ID
 document.getElementById("order").value =
 "ORD"+Math.floor(100000+Math.random()*900000);
 
-// เพิ่มแถว
 function addRow(){
 
-    let row = document.createElement("div");
-    row.className = "row";
+let row=document.createElement("div");
+row.className="row";
 
-    row.innerHTML = `
-    <input class="item" placeholder="ชื่อสินค้า">
-    <input class="price" placeholder="ราคา" oninput="calc(this)">
-    <input class="qty" value="1" oninput="calc(this)">
-    <input class="sum" disabled>
+row.innerHTML=`
+<input class="item" placeholder="ชื่อสินค้า">
+<input class="price" placeholder="ราคา" oninput="calc(this)">
+<input class="qty" value="1" oninput="calc(this)">
+<input class="sum" disabled>
+<button class="delete-btn" onclick="deleteRow(this)">✕</button>
+`;
 
-    <button class="delete-btn" onclick="deleteRow(this)">✕</button>
-    `;
-
-    document.getElementById("items").appendChild(row);
+document.getElementById("items").appendChild(row);
 }
 
-// ลบสินค้า
 function deleteRow(btn){
-    btn.closest(".row").remove();
+btn.closest(".row").remove();
 }
 
-// คำนวณ
 function calc(el){
 
-    let row = el.closest(".row");
+let row=el.closest(".row");
 
-    let price = row.querySelector(".price").value;
-    let qty = row.querySelector(".qty").value;
+let price=row.querySelector(".price").value;
+let qty=row.querySelector(".qty").value;
 
-    let sum = (Number(price)||0) * (Number(qty)||0);
+let sum=(Number(price)||0)*(Number(qty)||0);
 
-    row.querySelector(".sum").value = sum;
+row.querySelector(".sum").value=sum;
 }
 
-// เริ่มต้น
 addRow();
 
-// สร้างลิงก์
 function createBill(){
 
-    let order = document.getElementById("order").value;
-    let customer = document.getElementById("customer").value;
-    let shipping = document.getElementById("shipping").value;
+let order=document.getElementById("order").value;
+let customer=document.getElementById("customer").value;
+let shipping=document.getElementById("shipping").value;
+let status=document.getElementById("status").value;
 
-    let rows = document.querySelectorAll(".row");
+let rows=document.querySelectorAll(".row");
 
-    let url = "index.html?order=" + encodeURIComponent(order)
-            + "&customer=" + encodeURIComponent(customer);
+let url="index.html?order="+encodeURIComponent(order)
++"&customer="+encodeURIComponent(customer)
++"&status="+encodeURIComponent(status);
 
-    let total = 0;
+let total=0;
 
-    rows.forEach((row,i)=>{
+rows.forEach((row,i)=>{
 
-        let item = row.querySelector(".item").value;
-        let price = row.querySelector(".price").value;
-        let qty = row.querySelector(".qty").value;
-        let sum = row.querySelector(".sum").value;
+let item=row.querySelector(".item").value;
+let price=row.querySelector(".price").value;
+let qty=row.querySelector(".qty").value;
+let sum=row.querySelector(".sum").value;
 
-        if(item){
-            url += `&i${i+1}=${encodeURIComponent(item)}`
-                 + `&p${i+1}=${price}`
-                 + `&q${i+1}=${qty}`
-                 + `&s${i+1}=${sum}`;
+if(item){
 
-            total += Number(sum||0);
-        }
+url+=`&i${i+1}=${encodeURIComponent(item)}`
++`&p${i+1}=${price}`
++`&q${i+1}=${qty}`
++`&s${i+1}=${sum}`;
 
-    });
+total+=Number(sum||0);
 
-    let shippingValue = Number(shipping);
-    if(isNaN(shippingValue)) shippingValue = 0;
+}
 
-    let final = total + shippingValue;
+});
 
-    url += `&total=${total}`
-         + `&shipping=${encodeURIComponent(shipping)}`
-         + `&shippingValue=${shippingValue}`
-         + `&final=${final}`;
+let shippingValue=Number(shipping);
+if(isNaN(shippingValue)) shippingValue=0;
 
-    document.getElementById("result").innerHTML =
-    `<a href="${url}" target="_blank">${url}</a>`;
+let final=total+shippingValue;
+
+url+=`&total=${total}`
++`&shipping=${encodeURIComponent(shipping)}`
++`&shippingValue=${shippingValue}`
++`&final=${final}`;
+
+document.getElementById("result").innerHTML=
+`<a href="${url}" target="_blank">${url}</a>`;
 }
 
 </script>
